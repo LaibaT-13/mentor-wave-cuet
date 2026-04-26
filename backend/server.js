@@ -1,7 +1,6 @@
 const app = require("./app");
 const { connectDB } = require("./config/db");
 const { syncDB } = require("./models"); 
-require("dotenv").config();
 
 const start = async () => {
   try {
