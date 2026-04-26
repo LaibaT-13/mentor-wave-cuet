@@ -3,7 +3,7 @@
    Handles all real backend API calls.
    ============================================================ */
 
-const API_BASE = "http://localhost:5000/api";
+const API_BASE = "https://mentor-wave-cuet-production.up.railway.app/api";
 
 // ── Storage helpers ──────────────────────────────────────────
 function getToken()       { return localStorage.getItem("token"); }
