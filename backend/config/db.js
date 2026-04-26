@@ -16,7 +16,7 @@ const connectDB = async () => {
     await sequelize.authenticate();
     console.log("✅ Database connected");
   } catch (err) {
-    console.error("❌ DB error:", err.message);
+    console.error("❌ DB error:", err);
     process.exit(1);
   }
 };
