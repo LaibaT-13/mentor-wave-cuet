@@ -1,0 +1,244 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Admin Dashboard - Mentor Wave CUET</title>
+    <style>
+        /* --- FONT & COLOR VARIABLES --- */
+        :root {
+            --sidebar-bg: #4B3628;           /* Dark Brown */
+            --sidebar-active: #6B4F3A;       /* Mocha */
+            --sidebar-text: #F3E6D6;         /* Champagne */
+            --main-bg: #EFE1D1;              /* Champagne */
+            --card-bg: #D8B892;              /* Sand */
+            --card-text: #3A2F2A;            /* Anthrazit */
+            --table-bg: #EAD8C0;             /* Beige */
+            --table-border: #C4B7A6;         /* Greige */
+            --table-hover: #E6C3B3;          /* Blush */
+            --btn-primary: #A45A3F;          /* Terracotta */
+            --btn-hover: #B17843;            /* Caramel */
+            --gold: #D4AF37;                 /* Gold Icons */
+            --text-dark: #3A2F2A;            /* Dark Text */
+        }
+
+        * { margin: 0; padding: 0; box-sizing: border-box; }
+
+        body {
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            background-color: var(--main-bg);
+            color: var(--text-dark);
+            font-size: 16px;
+            display: flex;
+        }
+
+        /* --- TYPOGRAPHY --- */
+        h1, .page-title { font-size: 32px; font-weight: 600; color: var(--text-dark); }
+        h2, .section-heading { font-size: 24px; font-weight: 600; color: var(--text-dark); }
+        h3, .stat-details h3 { font-size: 18px; font-weight: 600; color: var(--text-dark); }
+        p, .nav-item span { font-size: 14px; font-weight: 400; }
+        small, .stat-change, .badge, label { font-size: 12px; font-weight: 500; }
+        .btn { font-size: 14px; font-weight: 600; cursor: pointer; }
+
+        /* --- SIDEBAR --- */
+        .sidebar {
+            width: 260px;
+            background-color: var(--sidebar-bg);
+            color: var(--sidebar-text);
+            min-height: 100vh;
+            position: fixed;
+            padding: 20px;
+        }
+
+        .sidebar-header h2 { color: var(--sidebar-text); margin-bottom: 30px; }
+        
+        .sidebar-user { 
+            display: flex; gap: 12px; align-items: center; 
+            padding-bottom: 20px; border-bottom: 1px solid rgba(243, 230, 214, 0.2); 
+        }
+        .user-avatar { width: 40px; height: 40px; background: var(--sidebar-active); border-radius: 50%; display: flex; align-items: center; justify-content: center; color: var(--sidebar-text); }
+        .user-info h3 { color: var(--sidebar-text); font-size: 16px; }
+        .user-info p { color: var(--sidebar-text); opacity: 0.8; }
+
+        .sidebar-nav { margin-top: 25px; display: flex; flex-direction: column; gap: 4px; }
+        .nav-item { 
+            display: flex; align-items: center; gap: 12px; padding: 12px; 
+            text-decoration: none; color: var(--sidebar-text); border-radius: 6px; 
+        }
+        .nav-item.active { background-color: var(--sidebar-active); color: var(--sidebar-text); }
+        .nav-item:hover:not(.active) { background-color: rgba(107, 79, 58, 0.3); color: var(--sidebar-text); }
+        .badge { background: #B24A3A; color: white; padding: 2px 6px; border-radius: 10px; margin-left: auto; }
+
+        /* --- MAIN CONTENT --- */
+        .main-content { margin-left: 260px; width: calc(100% - 260px); }
+        .topbar { 
+            background-color: #F5F5DC; padding: 15px 30px; 
+            display: flex; justify-content: space-between; align-items: center;
+            border-bottom: 1px solid #E5E5D0;
+        }
+
+        .dashboard-content { padding: 30px; background-color: var(--main-bg); }
+
+        /* --- STATS & CARDS --- */
+        .stats-grid { display: grid; grid-template-columns: repeat(4, 1fr); gap: 20px; margin-bottom: 30px; }
+        .stat-card { 
+            background-color: var(--card-bg); padding: 20px; border-radius: 10px; 
+            display: flex; align-items: center; gap: 15px; box-shadow: 0 2px 4px rgba(0,0,0,0.03);
+        }
+        .stat-icon { color: var(--gold) !important; font-size: 24px; }
+        .stat-details h3 { color: var(--card-text); }
+        .stat-details p { color: var(--card-text); }
+        
+        /* --- SECTION & TABLES --- */
+        .section { background: var(--card-bg); padding: 25px; border-radius: 10px; margin-bottom: 30px; border: 1px solid var(--table-border); }
+        .section-heading { color: var(--card-text); }
+        .data-table { width: 100%; border-collapse: collapse; margin-top: 15px; }
+        .data-table th { text-align: left; padding: 12px; border-bottom: 2px solid var(--table-border); color: var(--card-text); font-size: 12px; text-transform: uppercase; }
+        .data-table td { padding: 15px 12px; border-bottom: 1px solid var(--table-border); color: var(--card-text); }
+        .data-table tbody tr:hover { background-color: var(--table-hover); }
+
+        /* --- BUTTONS --- */
+        .btn { padding: 10px 20px; border-radius: 20px; border: none; transition: 0.2s; }
+        .btn-success { background: var(--btn-primary); color: white; }
+        .btn-success:hover { background: var(--btn-hover); }
+        .btn-danger { background: #B24A3A; color: white; }
+        .btn-danger:hover { background: #8a3a2a; }
+        .btn-secondary { background: var(--table-border); color: var(--card-text); }
+        .btn-secondary:hover { background: #b5a897; }
+        .action-buttons { display: flex; gap: 8px; }
+
+        /* --- ACTIVITY & REPORTS --- */
+        .activity-item { display: flex; gap: 15px; padding: 12px 0; border-bottom: 1px solid #F9F9F9; }
+        .reports-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 20px; }
+        .report-card { background: var(--card-bg); padding: 20px; border-radius: 10px; border-left: 5px solid #B24A3A; }
+        .report-badge.critical { color: #B24A3A; font-weight: 700; text-transform: uppercase; }
+
+        .welcome-banner { background: linear-gradient(135deg, #A45A3F 0%, #B17843 100%); color: white; padding: 25px; border-radius: 10px; margin-bottom: 30px; }
+        .welcome-banner h2 { color: white; }
+        .welcome-banner p { color: rgba(255,255,255,0.9); }
+    </style>
+</head>
+<body class="dashboard-layout">
+    <aside class="sidebar" id="sidebar">
+        <div class="sidebar-header">
+            <h2>🎓 Mentor Wave</h2>
+            <button class="sidebar-toggle" id="sidebarToggle" style="display:none;">✕</button>
+        </div>
+
+        <div class="sidebar-user">
+            <div class="user-avatar">A</div>
+            <div class="user-info">
+                <h3 id="userName">Admin</h3>
+                <p id="userRole">Administrator</p>
+            </div>
+        </div>
+
+        <nav class="sidebar-nav">
+            <a href="dashboard.html" class="nav-item active">
+                <span class="nav-icon">📊</span>
+                <span>Dashboard</span>
+            </a>
+            <a href="#" class="nav-item" id="verificationsLink">
+                <span class="nav-icon">✓</span>
+                <span>Verifications</span>
+                <span class="badge" id="pendingVerifBadge" style="display:none;">0</span>
+            </a>
+            <a href="#" class="nav-item" id="postApprovalsLink">
+                <span class="nav-icon">📋</span>
+                <span>Post Approvals</span>
+                <span class="badge" id="pendingPostsBadge" style="display:none;">0</span>
+            </a>
+            <a href="#" class="nav-item" id="tutorsLink">
+                <span class="nav-icon">👨‍🎓</span>
+                <span>All Tutors</span>
+            </a>
+            <a href="#" class="nav-item" id="guardiansLink">
+                <span class="nav-icon">👥</span>
+                <span>All Guardians</span>
+            </a>
+            <a href="#" class="nav-item" id="logoutLink">
+                <span class="nav-icon">🚪</span>
+                <span>Logout</span>
+            </a>
+        </nav>
+    </aside>
+
+    <main class="main-content">
+        <header class="topbar">
+            <button class="menu-btn" id="menuBtn" style="display:none;">☰</button>
+            <h1 class="page-title">Admin Dashboard</h1>
+            <div class="topbar-actions">
+                <button class="icon-btn" title="Notifications" style="background:none; border:none; font-size:20px; cursor:pointer;">
+                    🔔 <span class="badge" style="position:absolute; margin-top:-10px;">10</span>
+                </button>
+            </div>
+        </header>
+
+        <div class="dashboard-content">
+            <div class="welcome-banner">
+                <h2>Admin Control Panel</h2>
+                <p>Manage users, verifications, and platform activity</p>
+            </div>
+
+            <div class="stats-grid">
+                <div class="stat-card">
+                    <div class="stat-icon">👨‍🎓</div>
+                    <div class="stat-details">
+                        <h3 id="totalTutors">247</h3>
+                        <p>Total Tutors</p>
+                        <small class="stat-change" style="color: #A45A3F">+12 this week</small>
+                    </div>
+                </div>
+                <div class="stat-card">
+                    <div class="stat-icon">👥</div>
+                    <div class="stat-details">
+                        <h3 id="totalGuardians">189</h3>
+                        <p>Total Guardians</p>
+                        <small class="stat-change" style="color: #A45A3F">+8 this week</small>
+                    </div>
+                </div>
+                <div class="stat-card">
+                    <div class="stat-icon">📝</div>
+                    <div class="stat-details">
+                        <h3 id="totalPosts">0</h3>
+                        <p>Tuition Posts</p>
+                    </div>
+                </div>
+                <div class="stat-card">
+                    <div class="stat-icon">🤝</div>
+                    <div class="stat-details">
+                        <h3 id="totalMatches">0</h3>
+                        <p>Applications</p>
+                    </div>
+                </div>
+            </div>
+
+            <section class="section">
+                <div class="section-header">
+                    <h2 class="section-heading">All Registered Users</h2>
+                </div>
+                <div class="table-container">
+                    <table class="data-table">
+                        <thead>
+                            <tr>
+                                <th>Name</th>
+                                <th>Email</th>
+                                <th>Role</th>
+                                <th>Verified</th>
+                                <th>Registered</th>
+                                <th>Actions</th>
+                            </tr>
+                        </thead>
+                        <tbody id="usersTableBody">
+                            <tr><td colspan="5" style="text-align:center;color:#999;padding:20px;">Loading...</td></tr>
+                        </tbody>
+                    </table>
+                </div>
+            </section>
+        </div>
+    </main>
+    
+    <script src="../js/main.js"></script>
+    <script src="../js/api.js"></script>
+</body>
+</html>

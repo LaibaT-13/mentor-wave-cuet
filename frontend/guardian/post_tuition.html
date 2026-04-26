@@ -1,0 +1,413 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Post Tuition - Mentor Wave CUET</title>
+    <style>
+        /* --- THEME & FONTS --- */
+        :root {
+            --sidebar-bg: #4B3628;           /* Dark Brown */
+            --sidebar-hover: #6B4F3A;        /* Mocha */
+            --sidebar-active: #6E7B5B;       /* Olive */
+            --sidebar-text: #F3E6D6;         /* Champagne */
+            --main-bg: #FFFFFF;              /* White */
+            --card-bg: #EAD8C0;              /* Beige */
+            --card-heading: #3A2F2A;         /* Anthrazit */
+            --divider: #B17843;              /* Caramel */
+            --side-box-bg: #D8B892;          /* Sand */
+            --side-box-text: #4B3628;        /* Dark Brown */
+            --input-bg: #F7F1E8;             /* Light */
+            --input-border: #C4B7A6;         /* Greige */
+            --input-focus: #A45A3F;          /* Terracotta */
+            --btn-primary: #A45A3F;          /* Terracotta */
+            --btn-hover: #B17843;            /* Caramel */
+            --btn-text: #FFFFFF;             /* White */
+            --btn-secondary-bg: #C4B7A6;     /* Greige */
+            --btn-secondary-text: #3A2F2A;   /* Anthrazit */
+            --tag-bg: #C4B7A6;               /* Greige */
+            --tag-text: #4B3628;             /* Dark Brown */
+            --badge-green: #8A9A7B;          /* Sage */
+            --badge-red: #A45A3F;            /* Terracotta */
+            --gold: #D4AF37;                 /* Gold Icons */
+            --border-color: #C4B7A6;         /* Greige */
+            --body-text: #3A2F2A;            /* Dark text */
+            --sec-color: #6B6B6B;            /* Secondary text */
+        }
+
+        * { margin: 0; padding: 0; box-sizing: border-box; }
+
+        body {
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            background-color: var(--main-bg);
+            color: var(--body-text);
+            display: flex;
+        }
+
+        /* --- TYPOGRAPHY --- */
+        h1, .page-title { font-size: 32px; font-weight: 600; color: var(--card-heading); }
+        h2, .form-header h2 { font-size: 24px; font-weight: 600; color: var(--card-heading); }
+        h3, .form-section-title, .sidebar-card h3 { font-size: 18px; font-weight: 600; color: var(--card-heading); }
+        p, label { font-size: 14px; font-weight: 400; }
+        small, .form-hint { font-size: 12px; font-weight: 500; color: var(--sec-color); }
+
+        /* --- SIDEBAR --- */
+        .sidebar {
+            width: 260px;
+            background-color: var(--sidebar-bg);
+            color: var(--sidebar-text);
+            min-height: 100vh;
+            position: fixed;
+            padding: 20px;
+        }
+        .sidebar-header h2 { color: var(--sidebar-text); margin-bottom: 30px; }
+        .sidebar-user { display: flex; gap: 12px; align-items: center; padding-bottom: 20px; border-bottom: 1px solid rgba(243, 230, 214, 0.2); }
+        .user-avatar { width: 40px; height: 40px; background: var(--sidebar-active); border-radius: 50%; display: flex; align-items: center; justify-content: center; color: var(--sidebar-text); font-weight: bold; }
+        .user-info h3 { color: var(--sidebar-text); font-size: 16px; }
+        .user-info p { color: var(--sidebar-text); opacity: 0.8; }
+
+        .sidebar-nav { margin-top: 25px; display: flex; flex-direction: column; gap: 4px; }
+        .nav-item { display: flex; align-items: center; gap: 12px; padding: 12px; text-decoration: none; color: var(--sidebar-text); border-radius: 6px; transition: 0.3s; }
+        .nav-item.active { background-color: var(--sidebar-active); color: var(--sidebar-text); }
+        .nav-item:hover:not(.active) { background-color: rgba(107, 79, 58, 0.3); color: var(--sidebar-text); }
+        .badge { background: var(--badge-red); color: white; padding: 2px 6px; border-radius: 10px; margin-left: auto; font-size: 10px; }
+
+        /* --- LAYOUT --- */
+        .main-content { margin-left: 260px; width: calc(100% - 260px); }
+        .topbar { background-color: #F5F5DC; padding: 15px 30px; display: flex; justify-content: space-between; align-items: center; border-bottom: 1px solid var(--border-color); }
+        .dashboard-content { padding: 30px; background-color: var(--main-bg); }
+
+        /* --- FORM & CARDS --- */
+        .form-container { display: grid; grid-template-columns: 1fr 320px; gap: 30px; }
+        .form-card, .sidebar-card { background-color: var(--card-bg); padding: 25px; border-radius: 10px; border: 1px solid var(--border-color); }
+        .form-section { margin-bottom: 25px; padding-bottom: 20px; border-bottom: 1px solid var(--divider); }
+        .form-section-title { margin-bottom: 15px; color: var(--btn-primary); }
+        .form-group { margin-bottom: 15px; }
+        .form-row { display: grid; grid-template-columns: 1fr 1fr; gap: 20px; }
+        
+        input, select, textarea { 
+            width: 100%; 
+            padding: 10px; 
+            border: 1px solid var(--input-border); 
+            border-radius: 6px; 
+            background: var(--input-bg); 
+            font-family: inherit; 
+            color: var(--body-text);
+        }
+        
+        input:focus, select:focus, textarea:focus {
+            outline: none;
+            border-color: var(--input-focus);
+            background: white;
+        }
+
+        label {
+            display: block;
+            margin-bottom: 6px;
+            color: var(--card-heading);
+            font-weight: 600;
+        }
+
+        .checkbox-grid { display: grid; grid-template-columns: repeat(2, 1fr); gap: 10px; margin-top: 10px; }
+        .checkbox-label { 
+            display: flex; 
+            align-items: center; 
+            gap: 8px; 
+            cursor: pointer; 
+            font-size: 13px; 
+            color: var(--body-text);
+        }
+
+        .checkbox-label input[type="checkbox"] {
+            width: auto;
+            margin: 0;
+            cursor: pointer;
+            accent-color: var(--btn-primary);
+        }
+
+        .btn { 
+            padding: 10px 20px; 
+            border-radius: 20px; 
+            border: none; 
+            font-weight: 600; 
+            cursor: pointer; 
+            transition: 0.3s;
+        }
+        .btn-primary { 
+            background: var(--btn-primary); 
+            color: var(--btn-text); 
+        }
+        .btn-primary:hover {
+            background: var(--btn-hover);
+        }
+        .btn-secondary { 
+            background: var(--btn-secondary-bg); 
+            color: var(--btn-secondary-text); 
+        }
+        .btn-secondary:hover {
+            background: #b5a897;
+        }
+        .btn-outline { 
+            background: transparent; 
+            border: 1px solid var(--btn-primary); 
+            color: var(--btn-primary); 
+        }
+        .btn-outline:hover {
+            background: rgba(164, 90, 63, 0.1);
+        }
+
+        .sidebar-card h3 { 
+            margin-bottom: 10px; 
+            color: var(--side-box-text); 
+        }
+        .sidebar-card p {
+            color: var(--side-box-text);
+            line-height: 1.5;
+        }
+
+        .rate-item { 
+            display: flex; 
+            justify-content: space-between; 
+            padding: 5px 0; 
+            border-bottom: 1px dashed var(--divider); 
+            font-size: 13px; 
+            color: var(--side-box-text);
+        }
+
+        .form-actions {
+            display: flex;
+            justify-content: flex-end;
+            gap: 10px;
+            margin-top: 20px;
+        }
+    </style>
+</head>
+<body class="dashboard-layout">
+    <aside class="sidebar" id="sidebar">
+        <div class="sidebar-header"><h2>🎓 Mentor Wave</h2></div>
+        <div class="sidebar-user">
+            <div class="user-avatar">G</div>
+            <div class="user-info">
+                <h3 id="userName">Loading...</h3>
+                <p id="userRole">Guardian</p>
+            </div>
+        </div>
+        <nav class="sidebar-nav">
+            <a href="dashboard.html" class="nav-item"><span class="nav-icon">📊</span><span>Dashboard</span></a>
+            <a href="post_tuition.html" class="nav-item active"><span class="nav-icon">➕</span><span>Post Tuition</span></a>
+            <a href="my_posts.html" class="nav-item" id="myPostsLink"><span class="nav-icon">📝</span><span>My Posts</span></a>
+            <a href="#" class="nav-item" id="messagesLink"><span class="nav-icon">💬</span><span>Messages</span><span class="badge">5</span></a>
+            <a href="#" class="nav-item" id="logoutLink"><span class="nav-icon">🚪</span><span>Logout</span></a>
+        </nav>
+    </aside>
+
+    <main class="main-content">
+        <header class="topbar">
+            <h1 class="page-title">Post New Tuition</h1>
+            <div class="topbar-actions"><a href="dashboard.html" class="btn btn-secondary">Cancel</a></div>
+        </header>
+
+        <div class="dashboard-content">
+            <div class="form-container">
+                <div class="form-card">
+                    <form id="postTuitionForm">
+                        <div class="form-section">
+                            <h3 class="form-section-title">📚 Basic Information</h3>
+                            <div class="form-group">
+                                <label for="tuitionTitle">Tuition Title *</label>
+                                <input type="text" id="tuitionTitle" name="title" placeholder="e.g., Mathematics Tutor Needed for Class 10" required>
+                            </div>
+                            <div class="form-row">
+                                <div class="form-group">
+                                    <label for="studentClass">Class *</label>
+                                    <select id="studentClass" name="class" required>
+                                        <option value="">Select Class</option>
+                                        <option value="5">Class 5</option>
+                                        <option value="6">Class 6</option>
+                                        <option value="7">Class 7</option>
+                                        <option value="8">Class 8</option>
+                                        <option value="9">Class 9</option>
+                                        <option value="10">Class 10</option>
+                                        <option value="11">HSC 1st Year</option>
+                                        <option value="12">HSC 2nd Year</option>
+                                        <option value="admission">Admission Candidate</option>
+                                    </select>
+                                </div>
+                                <div class="form-group">
+                                    <label for="medium">Medium *</label>
+                                    <select id="medium" name="medium" required>
+                                        <option value="">Select Medium</option>
+                                        <option value="bangla">Bangla Medium</option>
+                                        <option value="english">English Medium</option>
+                                        <option value="english-version">English Version</option>
+                                    </select>
+                                </div>
+                            </div>
+
+                            <div class="form-group">
+                                <label>Subjects Required *</label>
+                                <div class="checkbox-grid">
+                                    <label class="checkbox-label"><input type="checkbox" name="subjects" value="mathematics"><span>Mathematics</span></label>
+                                    <label class="checkbox-label"><input type="checkbox" name="subjects" value="physics"><span>Physics</span></label>
+                                    <label class="checkbox-label"><input type="checkbox" name="subjects" value="chemistry"><span>Chemistry</span></label>
+                                    <label class="checkbox-label"><input type="checkbox" name="subjects" value="biology"><span>Biology</span></label>
+                                    <label class="checkbox-label"><input type="checkbox" name="subjects" value="english"><span>English</span></label>
+                                    <label class="checkbox-label"><input type="checkbox" name="subjects" value="bangla"><span>Bangla</span></label>
+                                    <label class="checkbox-label"><input type="checkbox" name="subjects" value="ict"><span>ICT</span></label>
+                                    <label class="checkbox-label"><input type="checkbox" name="subjects" value="higher-math"><span>Higher Math</span></label>
+                                </div>
+                            </div>
+                        </div>
+
+                        <div class="form-section">
+                            <h3 class="form-section-title">💰 Schedule & Compensation</h3>
+                            <div class="form-row">
+                                <div class="form-group">
+                                    <label for="salary">Salary (Per Month) *</label>
+                                    <input type="number" id="salary" name="salary" placeholder="e.g., 8000" required>
+                                </div>
+                                <div class="form-group">
+                                    <label for="tutorGender">Tutor Gender Preference</label>
+                                    <select id="tutorGender" name="tutorGender">
+                                        <option value="">No Preference</option>
+                                        <option value="male">Male</option>
+                                        <option value="female">Female</option>
+                                    </select>
+                                </div>
+                            </div>
+
+                            <div class="form-group">
+                                <label for="location">Location *</label>
+                                <input type="text" id="location" name="location" placeholder="e.g., Nasirabad, Chittagong" required>
+                            </div>
+
+                            <div class="form-group">
+                                <label for="daysPerWeek">Preferred Days Per Week</label>
+                                <input type="number" id="daysPerWeek" name="daysPerWeek" min="1" max="7" placeholder="e.g., 3" value="3">
+                                <small class="form-hint">Enter how many days per week (1–7).</small>
+                            </div>
+
+                            <div class="form-group">
+                                <label for="description">Tuition Description</label>
+                                <textarea id="description" name="description" rows="4" placeholder="Provide more details about what you're looking for..."></textarea>
+                            </div>
+                        </div>
+
+                        <div class="form-actions">
+                            <button type="reset" class="btn btn-outline">Reset Form</button>
+                            <button type="submit" class="btn btn-primary">Post Tuition</button>
+                        </div>
+                    </form>
+                </div>
+
+                <aside class="form-sidebar">
+                    <div class="sidebar-card">
+                        <h3>💡 Tips for Better Results</h3>
+                        <p>Write a clear title and specify subjects to attract verified tutors from CUET.</p>
+                    </div>
+
+                    <div class="sidebar-card" style="margin-top: 20px;">
+                        <h3>✓ What to Include</h3>
+                        <ul style="list-style: none; padding: 0; font-size: 13px; color: var(--side-box-text); line-height: 1.8;">
+                            <li>✓ Student's class/level</li>
+                            <li>✓ Subjects needed</li>
+                            <li>✓ Your location</li>
+                            <li>✓ Budget/salary</li>
+                            <li>✓ Schedule preference</li>
+                        </ul>
+                    </div>
+                </aside>
+            </div>
+        </div>
+    </main>
+    <script src="../js/main.js"></script>
+    <script src="../js/api.js"></script>
+    <script>
+        (function(){
+            // prevent main.js default handler from also processing this form
+            window.SKIP_DEFAULT_POST_HANDLER = true;
+            const FORM_ID = 'postTuitionForm';
+            const STORAGE_KEY = 'guardian_my_posts_v1';
+
+            function loadPosts(){
+                try{ const raw = localStorage.getItem(STORAGE_KEY); return raw? JSON.parse(raw): []; }catch(e){ return []; }
+            }
+            function savePosts(posts){ localStorage.setItem(STORAGE_KEY, JSON.stringify(posts)); }
+
+            const form = document.getElementById(FORM_ID);
+            if(!form) return;
+
+            form.addEventListener('submit', function(e){
+                e.preventDefault();
+                const title = document.getElementById('tuitionTitle').value.trim();
+                const studentClass = document.getElementById('studentClass').value;
+                const medium = document.getElementById('medium').value;
+                const salary = document.getElementById('salary').value;
+                const tutorGender = document.getElementById('tutorGender').value;
+                const location = document.getElementById('location').value.trim();
+                const description = document.getElementById('description').value.trim();
+                const subjects = Array.from(document.querySelectorAll('input[name="subjects"]:checked')).map(n=>n.value);
+                const daysCountVal = document.getElementById('daysPerWeek') && document.getElementById('daysPerWeek').value ? parseInt(document.getElementById('daysPerWeek').value, 10) : 0;
+
+                const posts = loadPosts();
+                const newPost = {
+                    id: Date.now(),
+                    title: title || 'Untitled Tuition',
+                    class: studentClass || '',
+                    medium: medium || '',
+                    subjects: subjects,
+                    daysCount: isNaN(daysCountVal) ? 0 : daysCountVal,
+                    salary: salary || '',
+                    tutorGender: tutorGender || '',
+                    location: location || '',
+                    description: description || '',
+                    status: 'Active',
+                    created: new Date().toLocaleString(),
+                    interested: 0
+                };
+
+                posts.unshift(newPost);
+                savePosts(posts);
+
+                // Also save into shared 'userTuitions' so tutors can find posts
+                try {
+                    const shared = JSON.parse(localStorage.getItem('userTuitions') || '[]');
+                    // Attach guardian info if available so tutors can notify guardian
+                    const currentUser = JSON.parse(localStorage.getItem('currentUser') || 'null');
+                    shared.unshift({
+                        id: newPost.id,
+                        title: newPost.title,
+                        class: newPost.class,
+                        subjects: newPost.subjects,
+                        location: newPost.location,
+                        salary: newPost.salary,
+                        days: newPost.daysCount || newPost.days || 0,
+                        description: newPost.description,
+                        postedDate: newPost.created || new Date().toISOString(),
+                        status: newPost.status || 'active',
+                        guardianEmail: currentUser ? currentUser.email : null,
+                        guardianName: currentUser ? currentUser.name : null
+                    });
+                    localStorage.setItem('userTuitions', JSON.stringify(shared));
+                
+                    // Notify admins that a new post was created and requires approval
+                    try {
+                        const currentUser = JSON.parse(localStorage.getItem('currentUser') || 'null');
+                        const adminMessage = `${(currentUser && currentUser.name) ? currentUser.name : (currentUser && currentUser.email) ? currentUser.email : 'A guardian'} has posted a new tuition and it requires admin approval.`;
+                        if (typeof addNotification === 'function') {
+                            addNotification({ message: adminMessage, receiverRole: 'admin', meta: { type: 'new-post', postId: newPost.id, guardianEmail: currentUser ? currentUser.email : null } });
+                        }
+                    } catch (e) {
+                        console.warn('Could not create admin notification for new post', e);
+                    }
+                } catch (e) {
+                    console.warn('Could not save to userTuitions', e);
+                }
+
+                // After saving, go to My Posts page to view it
+                window.location.href = 'my_posts.html';
+            });
+        })();
+    </script>
+</body>
+</html>

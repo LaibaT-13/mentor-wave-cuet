@@ -1,0 +1,267 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Login - Mentor Wave CUET</title>
+    <style>
+        /* --- THEME COLORS --- */
+        :root {
+            --sidebar-bg: #4B3628;           /* Dark Brown */
+            --sidebar-active: #6E7B5B;       /* Olive */
+            --sidebar-text: #F3E6D6;         /* Champagne */
+            --main-bg: #FFFFFF;              /* White */
+            --card-bg: #EAD8C0;              /* Beige */
+            --card-heading: #3A2F2A;         /* Anthrazit */
+            --divider: #B17843;              /* Caramel */
+            --input-bg: #F7F1E8;             /* Light */
+            --input-border: #C4B7A6;         /* Greige */
+            --input-focus: #A45A3F;          /* Terracotta */
+            --btn-primary: #A45A3F;          /* Terracotta */
+            --btn-hover: #B17843;            /* Caramel */
+            --btn-text: #FFFFFF;             /* White */
+            --gold: #D4AF37;                 /* Gold Icons */
+            --border-color: #C4B7A6;         /* Greige */
+            --body-text: #3A2F2A;            /* Dark text */
+            --sec-color: #6B6B6B;            /* Secondary text */
+        }
+
+        * { margin: 0; padding: 0; box-sizing: border-box; }
+
+        body {
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            background-color: var(--main-bg);
+            color: var(--body-text);
+            line-height: 1.6;
+        }
+
+        /* --- HEADER --- */
+        .header {
+            background-color: var(--sidebar-bg);
+            padding: 15px 0;
+            text-align: center;
+        }
+        .nav-brand h2 {
+            color: var(--sidebar-text);
+            font-size: 24px;
+            letter-spacing: 0.5px;
+        }
+        .nav-menu { display: none; }
+
+        /* --- AUTH SECTION --- */
+        .auth-section {
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            min-height: calc(100vh - 120px);
+            padding: 20px;
+        }
+
+        .auth-container {
+            display: flex;
+            justify-content: center;
+            width: 100%;
+        }
+
+        .auth-card {
+            background: var(--card-bg);
+            padding: 45px;
+            border-radius: 12px;
+            border: 1px solid var(--border-color);
+            box-shadow: 0 4px 25px rgba(0, 0, 0, 0.05);
+            width: 100%;
+            max-width: 440px;
+            text-align: center;
+        }
+
+        .auth-info { display: none; }
+
+        h1 {
+            font-size: 32px;
+            font-weight: 700;
+            color: var(--card-heading);
+            margin-bottom: 8px;
+        }
+
+        .auth-subtitle {
+            color: var(--sec-color);
+            font-size: 15px;
+            margin-bottom: 30px;
+        }
+
+        /* --- FORM STYLING --- */
+        .auth-form {
+            text-align: left;
+        }
+
+        .form-group {
+            margin-bottom: 18px;
+        }
+
+        .form-group label {
+            display: block;
+            font-weight: 600;
+            margin-bottom: 8px;
+            font-size: 14px;
+            color: var(--card-heading);
+        }
+
+        input, select {
+            width: 100%;
+            padding: 12px 15px;
+            border: 1px solid var(--input-border);
+            border-radius: 8px;
+            font-size: 15px;
+            background-color: var(--input-bg);
+            color: var(--body-text);
+            transition: border 0.3s ease;
+        }
+
+        input:focus, select:focus {
+            outline: none;
+            border-color: var(--input-focus);
+            background-color: white;
+        }
+
+        /* --- BUTTON --- */
+        .btn-primary {
+            background-color: var(--btn-primary);
+            color: var(--btn-text);
+            border: none;
+            padding: 14px;
+            width: 100%;
+            font-size: 16px;
+            font-weight: 700;
+            border-radius: 20px;
+            cursor: pointer;
+            margin-top: 10px;
+            transition: 0.3s;
+        }
+
+        .btn-primary:hover {
+            background-color: var(--btn-hover);
+        }
+
+        .auth-footer {
+            margin-top: 25px;
+            font-size: 14px;
+            color: var(--sec-color);
+        }
+
+        .auth-footer a {
+            color: var(--btn-primary);
+            text-decoration: none;
+            font-weight: 700;
+        }
+
+        .auth-footer a:hover {
+            text-decoration: underline;
+        }
+
+        /* --- FOOTER --- */
+        .footer-minimal {
+            text-align: center;
+            padding: 20px;
+            font-size: 12px;
+            color: var(--sec-color);
+        }
+
+        .error-message {
+            background-color: #fee;
+            color: #c33;
+            padding: 12px;
+            border-radius: 8px;
+            margin-bottom: 15px;
+            font-size: 14px;
+            border: 1px solid #fcc;
+        }
+
+        .success-message {
+            background-color: #efe;
+            color: #3c3;
+            padding: 12px;
+            border-radius: 8px;
+            margin-bottom: 15px;
+            font-size: 14px;
+            border: 1px solid #cfc;
+        }
+
+        #emailHint {
+            font-size: 12px;
+            color: var(--btn-primary);
+            margin-top: 5px;
+        }
+
+        .container {
+            max-width: 1200px;
+            margin: 0 auto;
+            padding: 0 20px;
+        }
+    </style>
+</head>
+<body>
+    <header class="header">
+        <nav class="navbar">
+            <div class="container">
+                <div class="nav-brand">
+                    <a href="index.html" style="text-decoration:none;"><h2>🎓 Mentor Wave CUET</h2></a>
+                </div>
+            </div>
+        </nav>
+    </header>
+
+    <section class="auth-section">
+        <div class="container">
+            <div class="auth-container">
+                <div class="auth-card">
+                    <h1>Welcome Back</h1>
+                    <p class="auth-subtitle">Log in to your dashboard</p>
+
+                    <form id="loginForm" class="auth-form">
+                        <div class="form-group">
+                            <label for="role">Login As</label>
+                            <select id="role" name="role" required>
+                                <option value="">Select your role</option>
+                                <option value="tutor">Tutor</option>
+                                <option value="guardian">Guardian</option>
+                                <option value="admin">Admin</option>
+                            </select>
+                        </div>
+
+                        <div class="form-group">
+                            <label for="email">Email Address</label>
+                            <input type="email" id="email" name="email" placeholder="Enter your email" required>
+                            <div id="emailHint"></div>
+                        </div>
+
+                        <div class="form-group">
+                            <label for="password" style="display:flex;justify-content:space-between;align-items:center;">
+                                <span>Password</span>
+                                <a href="forgot-password.html" style="font-size:12px;color:#A45A3F;text-decoration:none;font-weight:600;">Forgot password?</a>
+                            </label>
+                            <input type="password" id="password" name="password" placeholder="••••••••" required>
+                        </div>
+
+                        <div id="loginError" class="error-message" style="display: none;"></div>
+
+                        <button type="submit" class="btn btn-primary">Sign In</button>
+                    </form>
+
+                    <div class="auth-footer">
+                        <p>New to Mentor Wave? <a href="register.html">Create Account</a></p>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <footer class="footer footer-minimal">
+        <div class="container">
+            <p>&copy; 2026 Mentor Wave CUET. All rights reserved.</p>
+        </div>
+    </footer>
+
+    <script src="js/main.js"></script>
+    <script src="js/api.js"></script>
+</body>
+</html>

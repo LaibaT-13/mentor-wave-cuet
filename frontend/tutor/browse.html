@@ -1,0 +1,273 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Browse Tuitions - Mentor Wave CUET</title>
+    <style>
+        /* --- THEME & FONTS --- */
+        :root {
+            --sidebar-bg: #4B3628;           /* Dark Brown */
+            --sidebar-hover: #6B4F3A;        /* Mocha */
+            --sidebar-active: #6E7B5B;       /* Olive */
+            --sidebar-text: #F3E6D6;         /* Champagne */
+            --main-bg: #FFFFFF;              /* White */
+            --card-bg: #EAD8C0;              /* Beige */
+            --card-heading: #3A2F2A;         /* Anthrazit */
+            --divider: #B17843;              /* Caramel */
+            --side-box-bg: #D8B892;          /* Sand */
+            --side-box-text: #4B3628;        /* Dark Brown */
+            --input-bg: #F7F1E8;             /* Light */
+            --input-border: #C4B7A6;         /* Greige */
+            --input-focus: #A45A3F;          /* Terracotta */
+            --btn-primary: #A45A3F;          /* Terracotta */
+            --btn-hover: #B17843;            /* Caramel */
+            --btn-text: #FFFFFF;             /* White */
+            --btn-secondary-bg: #C4B7A6;     /* Greige */
+            --btn-secondary-text: #3A2F2A;   /* Anthrazit */
+            --tag-bg: #C4B7A6;               /* Greige */
+            --tag-text: #4B3628;             /* Dark Brown */
+            --badge-green: #8A9A7B;          /* Sage */
+            --badge-red: #A45A3F;            /* Terracotta */
+            --gold: #D4AF37;                 /* Gold Icons */
+            --border-color: #C4B7A6;         /* Greige */
+            --body-text: #3A2F2A;            /* Dark text */
+            --sec-color: #6B6B6B;            /* Secondary text */
+        }
+
+        * { margin: 0; padding: 0; box-sizing: border-box; }
+
+        body {
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            background-color: var(--main-bg);
+            color: var(--body-text);
+            display: flex;
+        }
+
+        /* --- TYPOGRAPHY --- */
+        h1, .page-title { font-size: 32px; font-weight: 600; color: var(--card-heading); }
+        h3, .filter-header h3, .tuition-header h3 { font-size: 18px; font-weight: 600; color: var(--card-heading); }
+        label { font-size: 14px; font-weight: 600; color: var(--card-heading); margin-bottom: 5px; display: block; }
+
+        /* --- SIDEBAR --- */
+        .sidebar {
+            width: 260px;
+            background-color: var(--sidebar-bg);
+            color: var(--sidebar-text);
+            min-height: 100vh;
+            position: fixed;
+            padding: 20px;
+        }
+        .sidebar-header h2 { color: var(--sidebar-text); margin-bottom: 30px; font-size: 20px; }
+        .sidebar-user { display: flex; gap: 12px; align-items: center; padding-bottom: 20px; border-bottom: 1px solid rgba(243, 230, 214, 0.2); }
+        .user-avatar { width: 40px; height: 40px; background: var(--sidebar-active); border-radius: 50%; display: flex; align-items: center; justify-content: center; color: var(--sidebar-text); font-weight: bold; }
+        .user-info h3 { color: var(--sidebar-text); font-size: 16px; margin: 0; }
+        .user-info p { color: var(--sidebar-text); opacity: 0.8; }
+        .sidebar-nav { margin-top: 25px; display: flex; flex-direction: column; gap: 4px; }
+        .nav-item { display: flex; align-items: center; gap: 12px; padding: 12px; text-decoration: none; color: var(--sidebar-text); border-radius: 6px; transition: 0.3s; }
+        .nav-item.active { background-color: var(--sidebar-active); color: var(--sidebar-text); }
+        .nav-item:hover:not(.active) { background-color: rgba(107, 79, 58, 0.3); color: var(--sidebar-text); }
+        .badge { background: var(--badge-red); color: white; padding: 2px 6px; border-radius: 10px; margin-left: auto; font-size: 10px; }
+
+        /* --- LAYOUT & TOPBAR --- */
+        .main-content { margin-left: 260px; width: calc(100% - 260px); }
+        .topbar { background-color: #F5F5DC; padding: 15px 30px; display: flex; justify-content: space-between; align-items: center; border-bottom: 1px solid var(--border-color); }
+        .dashboard-content { padding: 30px; background-color: var(--main-bg); }
+
+        /* --- BROWSE LAYOUT --- */
+        .browse-layout { display: grid; grid-template-columns: 280px 1fr; gap: 25px; align-items: start; }
+
+        /* --- FILTER PANEL --- */
+        .filter-panel { 
+            background: var(--card-bg); 
+            padding: 20px; 
+            border-radius: 12px; 
+            border: 1px solid var(--border-color);
+            position: sticky;
+            top: 20px;
+            max-height: calc(100vh - 40px);
+            overflow-y: auto;
+        }
+        .filter-header { display: flex; justify-content: space-between; align-items: center; margin-bottom: 20px; }
+        .filter-header h3 { color: var(--card-heading); }
+        .filter-group { margin-bottom: 18px; }
+        .filter-group select, .filter-group input { 
+            width: 100%; padding: 10px; border: 1px solid var(--input-border); border-radius: 6px; background: var(--input-bg); font-family: inherit; color: var(--body-text);
+        }
+        .filter-group select:focus, .filter-group input:focus {
+            outline: none;
+            border-color: var(--input-focus);
+        }
+        .range-inputs { display: flex; align-items: center; gap: 8px; }
+        .range-inputs input { width: 100%; }
+
+        /* --- TUITION CARDS --- */
+        .results-header { display: flex; justify-content: space-between; align-items: center; margin-bottom: 20px; }
+        .tuition-cards { display: grid; grid-template-columns: 1fr; gap: 20px; }
+        .tuition-card { 
+            background: var(--card-bg); 
+            padding: 25px; 
+            border-radius: 12px; 
+            border: 1px solid var(--border-color);
+            box-shadow: 0 2px 4px rgba(0,0,0,0.02);
+        }
+        .tuition-header { display: flex; justify-content: space-between; margin-bottom: 15px; align-items: center; }
+        .tuition-header h3 { color: var(--card-heading); }
+        .tuition-badge { background: var(--badge-green); color: white; padding: 4px 10px; border-radius: 20px; font-size: 12px; font-weight: 600; }
+        
+        .tuition-details { display: grid; grid-template-columns: repeat(auto-fit, minmax(200px, 1fr)); gap: 12px; margin-bottom: 15px; }
+        .detail-item { display: flex; align-items: center; gap: 8px; font-size: 14px; color: var(--body-text); }
+        .detail-icon { color: var(--gold); font-size: 16px; }
+
+        .tuition-description { color: var(--sec-color); font-size: 14px; line-height: 1.6; margin-bottom: 20px; padding-top: 10px; border-top: 1px solid var(--divider); opacity: 0.9; }
+
+        .tuition-footer { display: flex; justify-content: space-between; align-items: center; }
+
+        /* --- BUTTONS --- */
+        .btn { padding: 10px 18px; border-radius: 20px; border: none; font-weight: 600; cursor: pointer; transition: 0.3s; }
+        .btn-primary { background: var(--btn-primary); color: var(--btn-text); }
+        .btn-primary:hover { background: var(--btn-hover); }
+        .btn-secondary { background: var(--btn-secondary-bg); color: var(--btn-secondary-text); }
+        .btn-secondary:hover { background: #b5a897; }
+        .btn-sm { padding: 8px 15px; font-size: 13px; width: auto; }
+        .btn-link { background: none; color: var(--badge-red); border: none; cursor: pointer; font-size: 12px; text-decoration: underline; }
+
+        /* --- SORT SELECT --- */
+        #sortBy {
+            padding: 8px 12px;
+            border-radius: 6px;
+            border: 1px solid var(--border-color);
+            background: var(--input-bg);
+            color: var(--body-text);
+            cursor: pointer;
+        }
+
+        #sortBy:focus {
+            outline: none;
+            border-color: var(--input-focus);
+        }
+    </style>
+</head>
+<body class="dashboard-layout">
+    <aside class="sidebar" id="sidebar">
+        <div class="sidebar-header">
+            <h2>🎓 Mentor Wave</h2>
+        </div>
+        <div class="sidebar-user">
+            <div class="user-avatar">T</div>
+            <div class="user-info">
+                <h3 id="userName">Loading...</h3>
+                <p id="userRole">Tutor</p>
+            </div>
+        </div>
+        <nav class="sidebar-nav">
+            <a href="dashboard.html" class="nav-item"><span class="nav-icon">📊</span><span>Dashboard</span></a>
+            <a href="browse.html" class="nav-item active"><span class="nav-icon">🔍</span><span>Browse Tuitions</span></a>
+            <a href="profile.html" class="nav-item"><span class="nav-icon">👤</span><span>My Profile</span></a>
+            <a href="#" class="nav-item" id="messagesLink"><span class="nav-icon">💬</span><span>Messages</span><span class="badge">3</span></a>
+            <a href="#" class="nav-item" id="logoutLink"><span class="nav-icon">🚪</span><span>Logout</span></a>
+        </nav>
+    </aside>
+
+    <main class="main-content">
+        <header class="topbar">
+            <h1 class="page-title">Browse Tuitions</h1>
+            <div class="topbar-actions">
+                <button class="icon-btn" style="background:none; border:none; font-size: 20px; cursor:pointer;">🔔</button>
+            </div>
+        </header>
+
+        <div class="dashboard-content">
+            <div class="browse-layout">
+                <aside class="filter-panel">
+                    <div class="filter-header">
+                        <h3>Filters</h3>
+                        <button class="btn-link" id="clearFilters">Clear All</button>
+                    </div>
+                    <form id="filterForm">
+                        <div class="filter-group">
+                            <label>Class</label>
+                            <select id="classFilter" name="class">
+                                <option value="">All Classes</option>
+                                <option value="5">Class 5</option>
+                                <option value="6">Class 6</option>
+                                <option value="7">Class 7</option>
+                                <option value="8">Class 8</option>
+                                <option value="9">Class 9</option>
+                                <option value="10">Class 10</option>
+                                <option value="11">HSC 1st Year</option>
+                                <option value="12">HSC 2nd Year</option>
+                                <option value="admission">Admission Candidate</option>
+                            </select>
+                        </div>
+                        <div class="filter-group">
+                            <label>Subject</label>
+                            <select id="subjectFilter" name="subject">
+                                <option value="">All Subjects</option>
+                                <option value="mathematics">Mathematics</option>
+                                <option value="higher-math">Higher Math</option>
+                                <option value="physics">Physics</option>
+                                <option value="chemistry">Chemistry</option>
+                                <option value="biology">Biology</option>
+                                <option value="english">English</option>
+                                <option value="bangla">Bangla</option>
+                                <option value="ict">ICT</option>
+                                <option value="accounting">Accounting</option>
+                                <option value="economics">Economics</option>
+                                <option value="finance">Finance</option>
+                            </select>
+                        </div>
+                        <div class="filter-group">
+                            <label>Location</label>
+                            <input type="text" id="locationFilter" placeholder="Area Name">
+                        </div>
+                        <div class="filter-group">
+                            <label>Salary Range (৳)</label>
+                            <div class="range-inputs">
+                                <input type="number" id="minSalary" placeholder="Min">
+                                <input type="number" id="maxSalary" placeholder="Max">
+                            </div>
+                        </div>
+                        <button type="submit" class="btn btn-primary">Apply Filters</button>
+                    </form>
+                </aside>
+
+                <div class="tuition-list">
+                    <div class="results-header">
+                        <p><span id="resultCount" style="font-weight: 700; color: var(--btn-primary);">24</span> tuitions available</p>
+                        <select id="sortBy" style="padding: 8px 12px; border-radius: 6px; border: 1px solid var(--border-color); background: var(--input-bg); color: var(--body-text); cursor: pointer;">
+                            <option value="newest">Newest First</option>
+                            <option value="salary-high">Salary: High to Low</option>
+                        </select>
+                    </div>
+
+                    <div id="tuitionCards" class="tuition-cards">
+                        <div class="tuition-card" data-class="10" data-subject="mathematics" data-salary="8000">
+                            <div class="tuition-header">
+                                <h3>Mathematics Tutor Needed</h3>
+                                <span class="tuition-badge">New</span>
+                            </div>
+                            <div class="tuition-details">
+                                <div class="detail-item"><span class="detail-icon">📚</span><span>Class 10 • Mathematics</span></div>
+                                <div class="detail-item"><span class="detail-icon">📍</span><span>Nasirabad, Chittagong</span></div>
+                                <div class="detail-item"><span class="detail-icon">💰</span><span>৳8,000/month</span></div>
+                                <div class="detail-item"><span class="detail-icon">📅</span><span>4 days/week</span></div>
+                            </div>
+                            <div class="tuition-description">
+                                <p>Looking for an experienced mathematics tutor for SSC preparation. Student needs help with conceptual clarity in Geometry and Algebra.</p>
+                            </div>
+                            <div class="tuition-footer">
+                                <small style="color: var(--sec-color);">Posted 2 hours ago</small>
+                                <button class="btn btn-primary btn-sm interested-btn" data-id="1">Show Interest</button>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </main>
+
+    <script src="../js/main.js"></script>
+    <script src="../js/api.js"></script>
+</body>
+</html>

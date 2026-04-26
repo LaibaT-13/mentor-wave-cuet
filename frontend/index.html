@@ -1,0 +1,600 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta name="description" content="Mentor Wave CUET - Find verified CUET tutors or post tuition jobs">
+    <title>Mentor Wave CUET - CUET-Based Tutor Finding Platform</title>
+    <style>
+        /* ===== COMPLETE STYLING ===== */
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            color: #333;
+            line-height: 1.6;
+            background-color: #fff;
+        }
+
+        .container {
+            max-width: 1200px;
+            margin: 0 auto;
+            padding: 0 20px;
+        }
+
+        a {
+            text-decoration: none;
+            color: inherit;
+        }
+
+        /* ===== HEADER ===== */
+        .header {
+            background-color: #5A4030;
+            padding: 15px 0;
+            position: sticky;
+            top: 0;
+            z-index: 100;
+            box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1);
+        }
+
+        .navbar {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+        }
+
+        .nav-brand h2 {
+            color: #fff;
+            font-size: 22px;
+            letter-spacing: 0.5px;
+        }
+
+        .nav-menu {
+            display: flex;
+            list-style: none;
+            gap: 30px;
+            align-items: center;
+        }
+
+        .nav-menu a {
+            color: #fff;
+            font-size: 14px;
+            transition: opacity 0.3s;
+        }
+
+        .nav-menu a:hover {
+            opacity: 0.8;
+        }
+
+        .btn-nav {
+            background-color: #B88A4A;
+            padding: 10px 20px;
+            border-radius: 5px;
+            font-weight: 600;
+        }
+
+        .menu-toggle {
+            display: none;
+            background: none;
+            border: none;
+            cursor: pointer;
+        }
+
+        /* ===== HERO SECTION ===== */
+        .hero {
+            background-color: #7C624B;
+            color: #fff;
+            padding: 80px 0;
+        }
+
+        .hero .container {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 60px;
+            align-items: center;
+        }
+
+        .hero-title {
+            font-size: 48px;
+            font-weight: 700;
+            margin-bottom: 20px;
+            line-height: 1.2;
+        }
+
+        .hero-subtitle {
+            font-size: 16px;
+            margin-bottom: 40px;
+            color: #ddd;
+            line-height: 1.8;
+        }
+
+        .hero-cta {
+            display: flex;
+            gap: 20px;
+        }
+
+        .btn {
+            padding: 14px 30px;
+            border-radius: 5px;
+            font-size: 15px;
+            font-weight: 600;
+            cursor: pointer;
+            border: none;
+            transition: all 0.3s;
+            display: inline-block;
+            text-align: center;
+        }
+
+        .btn-primary {
+            background-color: #B88A4A;
+            color: #fff;
+        }
+
+        .btn-primary:hover {
+            background-color: #B5744E;
+        }
+
+        .btn-secondary {
+            background-color: transparent;
+            color: #fff;
+            border: 2px solid #fff;
+        }
+
+        .btn-secondary:hover {
+            background-color: rgba(255, 255, 255, 0.1);
+        }
+
+        .btn-lg {
+            padding: 16px 40px;
+            font-size: 16px;
+        }
+
+        .hero-graphic {
+            display: flex;
+            flex-direction: column;
+            gap: 15px;
+            border: 15px solid #8F8E6B;
+            padding: 40px;
+            border-radius: 8px;
+            background: linear-gradient(135deg, #2a2a2a 0%, #1a1a1a 100%);
+            box-shadow: inset 0 0 20px rgba(0, 0, 0, 0.8), 0 8px 16px rgba(0, 0, 0, 0.3);
+            position: relative;
+        }
+
+        .hero-graphic::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 0;
+            right: 0;
+            bottom: 0;
+            background: 
+                repeating-linear-gradient(
+                    90deg,
+                    transparent,
+                    transparent 2px,
+                    rgba(255, 255, 255, 0.03) 2px,
+                    rgba(255, 255, 255, 0.03) 4px
+                ),
+                repeating-linear-gradient(
+                    0deg,
+                    transparent,
+                    transparent 2px,
+                    rgba(255, 255, 255, 0.03) 2px,
+                    rgba(255, 255, 255, 0.03) 4px
+                );
+            border-radius: 4px;
+            pointer-events: none;
+        }
+
+        .graphic-card {
+            background-color: transparent;
+            padding: 20px 0;
+            border-radius: 0;
+            border: none;
+            display: flex;
+            align-items: center;
+            gap: 20px;
+            border-bottom: none;
+            position: relative;
+            z-index: 1;
+        }
+
+        .graphic-card:last-child {
+            border-bottom: none;
+        }
+
+        .graphic-card span {
+            font-size: 32px;
+            min-width: 40px;
+            color: #fff;
+        }
+
+        .graphic-card p {
+            font-size: 18px;
+            margin: 0;
+            color: #f0f0f0;
+            font-family: 'Courier New', monospace;
+            letter-spacing: 0.5px;
+        }
+
+        /* ===== FEATURES SECTION ===== */
+        .features {
+            background-color: #F5F1E8;
+            padding: 80px 0;
+        }
+
+        .section-title {
+            font-size: 36px;
+            font-weight: 700;
+            text-align: center;
+            margin-bottom: 60px;
+            color: #333;
+        }
+
+        .features-grid {
+            display: grid;
+            grid-template-columns: repeat(3, 1fr);
+            gap: 30px;
+        }
+
+        .feature-card {
+            background-color: #CDBA94;
+            padding: 40px 30px;
+            border-radius: 0;
+            text-align: center;
+            box-shadow: none;
+            border: 1px solid #ddd;
+            transition: transform 0.3s;
+        }
+
+        .feature-card:hover {
+            transform: none;
+        }
+
+        .feature-icon {
+            font-size: 24px;
+            margin-bottom: 15px;
+            width: 40px;
+            height: 40px;
+            background-color: #B88A4A;
+            color: #fff;
+            border-radius: 4px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            margin-left: auto;
+            margin-right: auto;
+        }
+
+        .feature-card h3 {
+            font-size: 18px;
+            margin-bottom: 15px;
+            color: #333;
+        }
+
+        .feature-card p {
+            font-size: 14px;
+            color: #666;
+            line-height: 1.6;
+        }
+
+        /* ===== ABOUT SECTION ===== */
+        .about {
+            background-color: #fff;
+            padding: 80px 0;
+        }
+
+        .about-content {
+            max-width: 800px;
+            margin: 0 auto;
+            text-align: center;
+        }
+
+        .about-content p {
+            font-size: 16px;
+            color: #666;
+            margin-bottom: 30px;
+            line-height: 1.8;
+        }
+
+        .stats {
+            display: grid;
+            grid-template-columns: repeat(3, 1fr);
+            gap: 40px;
+            margin-top: 60px;
+        }
+
+        .stat-item h3 {
+            font-size: 36px;
+            color: #B88A4A;
+            font-weight: 700;
+            margin-bottom: 10px;
+        }
+
+        .stat-item p {
+            font-size: 14px;
+            color: #999;
+            text-transform: uppercase;
+            letter-spacing: 1px;
+            margin: 0;
+        }
+
+        /* ===== CTA SECTION ===== */
+        .cta {
+            background-color: #7C624B;
+            color: #fff;
+            padding: 80px 0;
+            text-align: center;
+        }
+
+        .cta h2 {
+            font-size: 36px;
+            margin-bottom: 15px;
+        }
+
+        .cta p {
+            font-size: 16px;
+            margin-bottom: 40px;
+            color: #ddd;
+        }
+
+        /* ===== FOOTER ===== */
+        .footer {
+            background-color: #5A4030;
+            color: #fff;
+            padding: 60px 0 20px;
+        }
+
+        .footer-content {
+            display: grid;
+            grid-template-columns: repeat(4, 1fr);
+            gap: 40px;
+            margin-bottom: 40px;
+        }
+
+        .footer-section h3,
+        .footer-section h4 {
+            font-size: 16px;
+            margin-bottom: 20px;
+            font-weight: 600;
+        }
+
+        .footer-section p {
+            font-size: 14px;
+            color: #aaa;
+            line-height: 1.8;
+        }
+
+        .footer-section ul {
+            list-style: none;
+        }
+
+        .footer-section ul li {
+            margin-bottom: 10px;
+        }
+
+        .footer-section a {
+            color: #aaa;
+            font-size: 14px;
+            transition: color 0.3s;
+        }
+
+        .footer-section a:hover {
+            color: #fff;
+        }
+
+        .footer-bottom {
+            text-align: center;
+            padding-top: 20px;
+            border-top: 1px solid rgba(255, 255, 255, 0.1);
+            font-size: 12px;
+            color: #888;
+        }
+
+        /* ===== RESPONSIVE ===== */
+        @media (max-width: 768px) {
+            .nav-menu {
+                display: none;
+            }
+
+            .menu-toggle {
+                display: block;
+            }
+
+            .hero .container {
+                grid-template-columns: 1fr;
+            }
+
+            .hero-title {
+                font-size: 32px;
+            }
+
+            .features-grid {
+                grid-template-columns: 1fr;
+            }
+
+            .stats {
+                grid-template-columns: 1fr;
+            }
+
+            .footer-content {
+                grid-template-columns: 1fr;
+            }
+        }
+    </style>
+</head>
+<body>
+    <!-- Header Navigation -->
+    <header class="header">
+        <nav class="navbar">
+            <div class="container" style="display: flex; justify-content: space-between; align-items: center; width: 100%;">
+                <div class="nav-brand">
+                    <a href="index.html"><h2>🎓 Mentor Wave CUET</h2></a>
+                </div>
+                <ul class="nav-menu">
+                    <li><a href="index.html">Home</a></li>
+                    <li><a href="#features">Features</a></li>
+                    <li><a href="#about">About</a></li>
+                    <li><a href="login.html" class="btn-nav">Login</a></li>
+                </ul>
+                <button class="menu-toggle" id="menuToggle">
+                    <span style="display: block; width: 25px; height: 3px; background: #fff; margin: 5px 0;"></span>
+                    <span style="display: block; width: 25px; height: 3px; background: #fff; margin: 5px 0;"></span>
+                    <span style="display: block; width: 25px; height: 3px; background: #fff; margin: 5px 0;"></span>
+                </button>
+            </div>
+        </nav>
+    </header>
+
+    <!-- Hero Section -->
+    <section class="hero">
+        <div class="container">
+            <div class="hero-content">
+                <h1 class="hero-title">Connect with Verified CUET Tutors</h1>
+                <p class="hero-subtitle">
+                    A trusted platform connecting guardians with qualified tutors from CUET
+                </p>
+                <div class="hero-cta">
+                    <a href="register.html?role=guardian" class="btn btn-primary">
+                        I am a Guardian
+                    </a>
+                    <a href="register.html?role=tutor" class="btn btn-secondary">
+                        I am a Tutor
+                    </a>
+                </div>
+            </div>
+            <div class="hero-image">
+                <div class="hero-graphic">
+                    <div class="graphic-card">
+                        <span>📚</span>
+                        <p>Quality Education</p>
+                    </div>
+                    <div class="graphic-card">
+                        <span>✓</span>
+                        <p>CUET Verified</p>
+                    </div>
+                    <div class="graphic-card">
+                        <span>💬</span>
+                        <p>Secure Chat</p>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Features Section -->
+    <section id="features" class="features">
+        <div class="container">
+            <h2 class="section-title">Why Choose Mentor Wave CUET?</h2>
+            <div class="features-grid">
+                <div class="feature-card">
+                    <div class="feature-icon">🎓</div>
+                    <h3>CUET Verified Tutors</h3>
+                    <p>All tutors are verified CUET students with @student.cuet.ac.bd email addresses, ensuring quality and credibility.</p>
+                </div>
+                <div class="feature-card">
+                    <div class="feature-icon">🔍</div>
+                    <h3>Smart Filtering</h3>
+                    <p>Find the perfect tutor using advanced filters including subject, class, location, salary range, and gender preference.</p>
+                </div>
+                <div class="feature-card">
+                    <div class="feature-icon">💬</div>
+                    <h3>Secure Messaging</h3>
+                    <p>Built-in messaging system for safe communication between tutors and guardians without sharing personal contact information initially.</p>
+                </div>
+                <div class="feature-card">
+                    <div class="feature-icon">⚡</div>
+                    <h3>Quick Matching</h3>
+                    <p>Post tuition requirements and receive interest from qualified tutors within hours, making the hiring process seamless.</p>
+                </div>
+                <div class="feature-card">
+                    <div class="feature-icon">🛡️</div>
+                    <h3>Admin Verification</h3>
+                    <p>Every tutor profile is manually reviewed by our admin team to ensure authenticity and maintain platform integrity.</p>
+                </div>
+                <div class="feature-card">
+                    <div class="feature-icon">📱</div>
+                    <h3>Mobile Friendly</h3>
+                    <p>Access the platform from any device - desktop, tablet, or smartphone - with a fully responsive design.</p>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- About Section -->
+    <section id="about" class="about">
+        <div class="container">
+            <div class="about-content">
+                <h2 class="section-title">About Mentor Wave CUET</h2>
+                <p>Mentor Wave CUET is a specialized tutor-finding platform designed exclusively for the CUET community. We bridge the gap between qualified CUET students looking to share their knowledge and guardians seeking quality education for their children.</p>
+                <div class="stats">
+                    <div class="stat-item">
+                        <h3>500+</h3>
+                        <p>Verified Tutors</p>
+                    </div>
+                    <div class="stat-item">
+                        <h3>1000+</h3>
+                        <p>Successful Matches</p>
+                    </div>
+                    <div class="stat-item">
+                        <h3>98%</h3>
+                        <p>Satisfaction Rate</p>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Call to Action -->
+    <section class="cta">
+        <div class="container">
+            <h2>Ready to Get Started?</h2>
+            <p>Join hundreds of satisfied users on Mentor Wave CUET</p>
+            <a href="register.html" class="btn btn-primary btn-lg">Sign Up Now</a>
+        </div>
+    </section>
+
+    <!-- Footer -->
+    <footer class="footer">
+        <div class="container">
+            <div class="footer-content">
+                <div class="footer-section">
+                    <h3>Mentor Wave CUET</h3>
+                    <p>Connecting CUET students with quality education opportunities.</p>
+                </div>
+                <div class="footer-section">
+                    <h4>Quick Links</h4>
+                    <ul>
+                        <li><a href="index.html">Home</a></li>
+                        <li><a href="login.html">Login</a></li>
+                        <li><a href="register.html">Register</a></li>
+                    </ul>
+                </div>
+                <div class="footer-section">
+                    <h4>Contact</h4>
+                    <p>Email: info@mentorwavecuet.com</p>
+                    <p>Phone: +880 1XXX-XXXXXX</p>
+                </div>
+                <div class="footer-section">
+                    <h4>Legal</h4>
+                    <ul>
+                        <li><a href="#">Privacy Policy</a></li>
+                        <li><a href="#">Terms of Service</a></li>
+                    </ul>
+                </div>
+            </div>
+            <div class="footer-bottom">
+                <p>&copy; 2026 Mentor Wave CUET. All rights reserved.</p>
+            </div>
+        </div>
+    </footer>
+
+    <script src="js/main.js"></script>
+    <script src="js/api.js"></script>
+</body>
+</html>

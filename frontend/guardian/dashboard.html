@@ -1,0 +1,278 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Guardian Dashboard - Mentor Wave CUET</title>
+    <style>
+        /* --- THEME & FONTS --- */
+        :root {
+            --sidebar-bg: #4B3628;           /* Dark Brown */
+            --sidebar-active: #6B4F3A;       /* Mocha */
+            --sidebar-text: #F3E6D6;         /* Champagne */
+            --main-bg: #FFFFFF;              /* White */
+            --card-bg: #D8B892;              /* Sand */
+            --card-text: #3A2F2A;            /* Anthrazit */
+            --table-bg: #EAD8C0;             /* Beige */
+            --table-border: #C4B7A6;         /* Greige */
+            --table-hover: #E6C3B3;          /* Blush */
+            --btn-primary: #A45A3F;          /* Terracotta */
+            --btn-hover: #B17843;            /* Caramel */
+            --gold: #D4AF37;                 /* Gold Icons */
+            --text-dark: #3A2F2A;            /* Dark Text */
+            --error: #B24A3A;                /* Muted Red */
+        }
+
+        * { margin: 0; padding: 0; box-sizing: border-box; }
+
+        body {
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            background-color: var(--main-bg);
+            color: var(--text-dark);
+            font-size: 16px;
+            display: flex;
+        }
+
+        /* --- TYPOGRAPHY --- */
+        h1, .page-title { font-size: 32px; font-weight: 600; color: var(--text-dark); }
+        h2, .section-heading { font-size: 24px; font-weight: 600; color: var(--text-dark); }
+        h3, .post-header h3 { font-size: 18px; font-weight: 600; color: var(--text-dark); }
+        p { font-size: 14px; font-weight: 400; }
+        small, .badge, .status-badge { font-size: 12px; font-weight: 500; }
+        .btn { font-size: 14px; font-weight: 600; cursor: pointer; text-decoration: none; border-radius: 20px; border: none; }
+
+        /* --- SIDEBAR --- */
+        .sidebar {
+            width: 260px;
+            background-color: var(--sidebar-bg);
+            color: var(--sidebar-text);
+            min-height: 100vh;
+            position: fixed;
+            padding: 20px;
+        }
+
+        .sidebar-header h2 { color: var(--sidebar-text); margin-bottom: 30px; }
+        .sidebar-user { 
+            display: flex; gap: 12px; align-items: center; 
+            padding-bottom: 20px; border-bottom: 1px solid rgba(243, 230, 214, 0.2); 
+        }
+        .user-avatar { width: 40px; height: 40px; background: var(--sidebar-active); border-radius: 50%; display: flex; align-items: center; justify-content: center; color: var(--sidebar-text); font-weight: bold; }
+        .user-info h3 { color: var(--sidebar-text); font-size: 16px; }
+        .user-info p { color: var(--sidebar-text); opacity: 0.8; }
+
+        .sidebar-nav { margin-top: 25px; display: flex; flex-direction: column; gap: 4px; }
+        .nav-item { 
+            display: flex; align-items: center; gap: 12px; padding: 12px; 
+            text-decoration: none; color: var(--sidebar-text); border-radius: 6px; 
+        }
+        .nav-item.active { background-color: var(--sidebar-active); color: var(--sidebar-text); }
+        .nav-item:hover:not(.active) { background-color: rgba(107, 79, 58, 0.3); color: var(--sidebar-text); }
+        .badge { background: var(--error); color: white; padding: 2px 6px; border-radius: 10px; margin-left: auto; }
+
+        /* --- TOPBAR & CONTENT --- */
+        .main-content { margin-left: 260px; width: calc(100% - 260px); }
+        .topbar { 
+            background-color: #F5F5DC; padding: 15px 30px; 
+            display: flex; justify-content: space-between; align-items: center;
+            border-bottom: 1px solid #E5E5D0;
+        }
+        .dashboard-content { padding: 30px; background-color: var(--main-bg); }
+        .menu-btn { display: none; }
+
+        /* --- STATS & ACTION CARDS --- */
+        .stats-grid { display: grid; grid-template-columns: repeat(4, 1fr); gap: 20px; margin: 25px 0; }
+        .stat-card { 
+            background-color: var(--card-bg); padding: 20px; border-radius: 10px; 
+            display: flex; align-items: center; gap: 15px; 
+        }
+        .stat-icon { color: var(--gold) !important; font-size: 24px; }
+        .stat-details h3 { color: var(--card-text); }
+        .stat-details p { color: var(--card-text); }
+
+        .quick-actions { display: grid; grid-template-columns: repeat(3, 1fr); gap: 20px; margin-top: 15px; }
+        .action-card { 
+            background: var(--card-bg); border: 1px solid var(--table-border); padding: 20px; border-radius: 10px; 
+            text-decoration: none; color: inherit; transition: 0.3s;
+        }
+        .action-card:hover { border-color: var(--btn-primary); transform: translateY(-2px); }
+
+        /* --- SECTIONS & POSTS --- */
+        .section { margin-top: 40px; }
+        .section-header { display: flex; justify-content: space-between; align-items: center; margin-bottom: 15px; }
+        
+        .posts-grid { display: grid; grid-template-columns: repeat(3, 1fr); gap: 20px; }
+        .post-card { background: var(--card-bg); padding: 20px; border-radius: 10px; border: 1px solid var(--table-border); }
+        .post-header { display: flex; justify-content: space-between; align-items: start; margin-bottom: 15px; }
+        .post-header h3 { color: var(--card-text); }
+        .detail-item { font-size: 13px; display: flex; gap: 8px; margin-bottom: 8px; color: var(--card-text); }
+
+        /* --- TABLES --- */
+        .table-container { background: var(--card-bg); padding: 20px; border-radius: 10px; border: 1px solid var(--table-border); margin-top: 15px; overflow-x: auto; }
+        .data-table { width: 100%; border-collapse: collapse; }
+        .data-table th { text-align: left; padding: 12px; border-bottom: 2px solid var(--table-border); color: var(--card-text); font-size: 12px; text-transform: uppercase; }
+        .data-table td { padding: 15px 12px; border-bottom: 1px solid var(--table-border); color: var(--card-text); }
+        .data-table tbody tr:hover { background-color: var(--table-hover); }
+        .table-user { display: flex; align-items: center; gap: 10px; }
+        .user-avatar-sm { width: 32px; height: 32px; background: var(--btn-primary); border-radius: 50%; display: flex; align-items: center; justify-content: center; font-size: 12px; font-weight: bold; color: white; }
+
+        /* --- BUTTONS & BADGES --- */
+        .btn-primary { background: var(--btn-primary); color: white; padding: 10px 20px; }
+        .btn-primary:hover { background: var(--btn-hover); }
+        .btn-secondary { background: var(--table-border); color: var(--card-text); padding: 10px 20px; }
+        .btn-secondary:hover { background: #b5a897; }
+        .btn-success { background: var(--btn-primary); color: white; padding: 8px 16px; }
+        .btn-success:hover { background: var(--btn-hover); }
+        .btn-danger { background: var(--error); color: white; padding: 8px 16px; }
+        .btn-danger:hover { background: #8a3a2a; }
+        .btn-sm { font-size: 12px; }
+        .status-badge.active { background: var(--btn-primary); color: white; padding: 4px 12px; border-radius: 20px; }
+        .notification-badge { background: var(--error); color: white; padding: 2px 5px; border-radius: 50%; font-size: 10px; position: absolute; margin-left: -8px; }
+
+        .welcome-banner { background: linear-gradient(135deg, #A45A3F 0%, #B17843 100%); color: white; padding: 25px; border-radius: 10px; margin-bottom: 30px; }
+        .welcome-banner h2 { color: white; }
+        .welcome-banner p { color: rgba(255,255,255,0.9); }
+
+        .action-buttons { display: flex; gap: 8px; }
+    </style>
+</head>
+<body class="dashboard-layout">
+    <aside class="sidebar" id="sidebar">
+        <div class="sidebar-header">
+            <h2>🎓 Mentor Wave</h2>
+            <button class="sidebar-toggle" id="sidebarToggle" style="display:none;">✕</button>
+        </div>
+
+        <div class="sidebar-user">
+            <div class="user-avatar">G</div>
+            <div class="user-info">
+                <h3 id="userName">Loading...</h3>
+                <p id="userRole">Guardian</p>
+            </div>
+        </div>
+
+        <nav class="sidebar-nav">
+            <a href="dashboard.html" class="nav-item active">
+                <span class="nav-icon">📊</span>
+                <span>Dashboard</span>
+            </a>
+            <a href="post_tuition.html" class="nav-item">
+                <span class="nav-icon">➕</span>
+                <span>Post Tuition</span>
+            </a>
+            <a href="my_posts.html" class="nav-item" id="myPostsLink">
+                <span class="nav-icon">📝</span>
+                <span>My Posts</span>
+            </a>
+            <a href="../messages.html" class="nav-item" id="messagesLink">
+                <span class="nav-icon">💬</span>
+                <span>Messages</span>
+                <span class="badge" id="msgNavBadge" style="display:none;">0</span>
+            </a>
+            <a href="#" class="nav-item" id="logoutLink">
+                <span class="nav-icon">🚪</span>
+                <span>Logout</span>
+            </a>
+        </nav>
+    </aside>
+
+    <main class="main-content">
+        <header class="topbar">
+            <button class="menu-btn" id="menuBtn">☰</button>
+            <h1 class="page-title">Dashboard</h1>
+            <div class="topbar-actions">
+                <button class="icon-btn" title="Notifications" style="background:none; border:none; font-size:20px; cursor:pointer;">
+                    🔔 <span class="notification-badge" id="notifBadge" style="display:none;">0</span>
+                </button>
+            </div>
+        </header>
+
+        <div class="dashboard-content">
+            <div class="welcome-banner">
+                <h2>Welcome, <span id="welcomeName">Guardian</span>! 👋</h2>
+                <p>Manage your tuition posts and connect with tutors</p>
+            </div>
+
+            <div class="stats-grid">
+                <div class="stat-card">
+                    <div class="stat-icon">📝</div>
+                    <div class="stat-details">
+                        <h3 id="activePostsCount">0</h3>
+                        <p>Active Posts</p>
+                    </div>
+                </div>
+                <div class="stat-card">
+                    <div class="stat-icon">👥</div>
+                    <div class="stat-details">
+                        <h3 id="interestedTutorsCount">0</h3>
+                        <p>Interested Tutors</p>
+                    </div>
+                </div>
+                <div class="stat-card">
+                    <div class="stat-icon">💬</div>
+                    <div class="stat-details">
+                        <h3 id="messageCount">0</h3>
+                        <p>New Messages</p>
+                    </div>
+                </div>
+                <div class="stat-card">
+                    <div class="stat-icon">✓</div>
+                    <div class="stat-details">
+                        <h3 id="hiredCount">0</h3>
+                        <p>Tutors Hired</p>
+                    </div>
+                </div>
+            </div>
+
+            <section class="section">
+                <h2 class="section-heading">Quick Actions</h2>
+                <div class="quick-actions">
+                    <a href="post_tuition.html" class="action-card">
+                        <span class="action-icon">➕</span>
+                        <h3>Post New Tuition</h3>
+                        <p>Create a new tuition requirement</p>
+                    </a>
+                    <a href="#" class="action-card">
+                        <span class="action-icon">👥</span>
+                        <h3>View Interested Tutors</h3>
+                        <p>Check tutors who showed interest</p>
+                    </a>
+                    <a href="../messages.html" class="action-card">
+                        <span class="action-icon">💬</span>
+                        <h3>Messages</h3>
+                        <p>Reply to tutor inquiries</p>
+                    </a>
+                </div>
+            </section>
+
+            <section class="section">
+                <div class="section-header">
+                    <h2 class="section-heading">My Active Posts</h2>
+                    <a href="post_tuition.html" class="btn btn-primary btn-sm">Post New</a>
+                </div>
+
+                <div class="posts-grid" id="dashboardPostsGrid"><p style="color:#999;padding:20px;text-align:center;">Loading your posts...</p></div>
+            </section>
+
+            <section class="section">
+                <h2 class="section-heading">Recently Interested Tutors</h2>
+                <div class="table-container">
+                    <table class="data-table">
+                        <thead>
+                            <tr>
+                                <th>Tutor Name</th>
+                                <th>Department</th>
+                                <th>Applied</th>
+                                <th>Actions</th>
+                            </tr>
+                        </thead>
+                        <tbody id="interestedTutorsList"><tr><td colspan="4" style="text-align:center;color:#999;padding:20px;">Loading...</td></tr></tbody>
+                    </table>
+                </div>
+            </section>
+        </div>
+    </main>
+
+    <script src="../js/main.js"></script>
+    <script src="../js/api.js"></script>
+</body>
+</html>

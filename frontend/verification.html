@@ -1,0 +1,355 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Email Verification - Mentor Wave CUET</title>
+    <style>
+        /* --- THEME COLORS --- */
+        :root {
+            --sidebar-bg: #4B3628;           /* Dark Brown */
+            --sidebar-active: #6E7B5B;       /* Olive */
+            --sidebar-text: #F3E6D6;         /* Champagne */
+            --main-bg: #FFFFFF;              /* White */
+            --card-bg: #EAD8C0;              /* Beige */
+            --card-heading: #3A2F2A;         /* Anthrazit */
+            --divider: #B17843;              /* Caramel */
+            --input-bg: #F7F1E8;             /* Light */
+            --input-border: #C4B7A6;         /* Greige */
+            --input-focus: #A45A3F;          /* Terracotta */
+            --btn-primary: #A45A3F;          /* Terracotta */
+            --btn-hover: #B17843;            /* Caramel */
+            --btn-text: #FFFFFF;             /* White */
+            --btn-secondary: #C4B7A6;        /* Greige */
+            --btn-secondary-text: #3A2F2A;   /* Anthrazit */
+            --gold: #D4AF37;                 /* Gold Icons */
+            --border-color: #C4B7A6;         /* Greige */
+            --body-text: #3A2F2A;            /* Dark text */
+            --sec-color: #6B6B6B;            /* Secondary text */
+        }
+
+        * { margin: 0; padding: 0; box-sizing: border-box; }
+
+        body {
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            background-color: var(--main-bg);
+            color: var(--body-text);
+            line-height: 1.6;
+        }
+
+        .header {
+            background-color: var(--sidebar-bg);
+            padding: 15px 0;
+            text-align: center;
+            border-bottom: 6px solid var(--divider);
+        }
+
+        .container {
+            max-width: 1200px;
+            margin: 0 auto;
+            padding: 0 20px;
+        }
+
+        .nav-brand h2 {
+            color: var(--sidebar-text);
+            font-size: 24px;
+            letter-spacing: 0.5px;
+            margin: 0;
+        }
+
+        .nav-brand a {
+            text-decoration: none;
+            color: inherit;
+        }
+
+        .nav-menu { display: none; }
+
+        .auth-section {
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            min-height: calc(100vh - 120px);
+            padding: 20px;
+        }
+
+        .auth-container {
+            display: flex;
+            justify-content: center;
+            width: 100%;
+        }
+
+        .auth-card {
+            background: var(--card-bg);
+            padding: 50px;
+            border-radius: 12px;
+            border: 5px solid var(--border-color);
+            box-shadow: 0 8px 32px rgba(0, 0, 0, 0.1);
+            width: 100%;
+            max-width: 500px;
+            text-align: center;
+        }
+
+        .auth-info { display: none; }
+
+        h1 {
+            font-size: 36px;
+            font-weight: 700;
+            color: var(--card-heading);
+            margin-bottom: 8px;
+        }
+
+        .auth-subtitle {
+            color: var(--sec-color);
+            font-size: 15px;
+            margin-bottom: 30px;
+            line-height: 1.6;
+        }
+
+        .auth-subtitle strong {
+            color: var(--btn-primary);
+            font-weight: 700;
+        }
+
+        .auth-form {
+            text-align: left;
+        }
+
+        .form-group {
+            margin-bottom: 20px;
+        }
+
+        .form-group label {
+            display: block;
+            font-weight: 600;
+            margin-bottom: 8px;
+            font-size: 14px;
+            color: var(--card-heading);
+        }
+
+        input, select {
+            width: 100%;
+            padding: 12px 15px;
+            border: 2px solid var(--input-border);
+            border-radius: 8px;
+            font-size: 15px;
+            background-color: var(--input-bg);
+            color: var(--body-text);
+            transition: all 0.3s ease;
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            text-align: center;
+            letter-spacing: 2px;
+            font-weight: 600;
+        }
+
+        input:focus, select:focus {
+            outline: none;
+            border-color: var(--input-focus);
+            background-color: white;
+            box-shadow: 0 0 0 3px rgba(164, 90, 63, 0.1);
+        }
+
+        .btn-primary {
+            background-color: var(--btn-primary);
+            color: var(--btn-text);
+            border: none;
+            padding: 16px;
+            width: 100%;
+            font-size: 16px;
+            font-weight: 700;
+            border-radius: 20px;
+            cursor: pointer;
+            margin-top: 15px;
+            transition: all 0.3s;
+            box-shadow: 0 4px 12px rgba(164, 90, 63, 0.3);
+        }
+
+        .btn-primary:hover {
+            background-color: var(--btn-hover);
+            box-shadow: 0 6px 16px rgba(164, 90, 63, 0.4);
+            transform: translateY(-2px);
+        }
+
+        .btn {
+            border: none;
+            padding: 12px 20px;
+            border-radius: 20px;
+            font-size: 14px;
+            font-weight: 600;
+            cursor: pointer;
+            transition: all 0.3s;
+        }
+
+        .btn-secondary {
+            background-color: var(--btn-secondary);
+            color: var(--btn-secondary-text);
+            flex: 1;
+        }
+
+        .btn-secondary:hover {
+            background-color: #b5a897;
+        }
+
+        .btn-ghost {
+            background-color: transparent;
+            color: var(--btn-primary);
+            border: 2px solid var(--btn-primary);
+            flex: 1;
+        }
+
+        .btn-ghost:hover {
+            background-color: rgba(164, 90, 63, 0.1);
+            border-color: var(--btn-hover);
+            color: var(--btn-hover);
+        }
+
+        .btn-block {
+            width: 100%;
+        }
+
+        .btn-actions {
+            display: flex;
+            gap: 12px;
+            margin-top: 15px;
+        }
+
+        .auth-footer {
+            margin-top: 30px;
+            font-size: 14px;
+            color: var(--sec-color);
+            text-align: center;
+            padding-top: 20px;
+            border-top: 4px solid var(--border-color);
+        }
+
+        .auth-footer a {
+            color: var(--btn-primary);
+            text-decoration: none;
+            font-weight: 700;
+        }
+
+        .auth-footer a:hover {
+            text-decoration: underline;
+        }
+
+        .verification-message {
+            margin-bottom: 12px;
+            padding: 12px;
+            border-radius: 8px;
+            font-size: 14px;
+            font-weight: 500;
+        }
+
+        .verification-message.success {
+            background-color: #efe;
+            color: #3c3;
+            border: 2px solid #cfc;
+        }
+
+        .verification-message.error {
+            background-color: #fee;
+            color: #c33;
+            border: 2px solid #fcc;
+        }
+
+        .verification-message.info {
+            background-color: #eff;
+            color: #036;
+            border: 2px solid #cff;
+        }
+
+        .footer-minimal {
+            text-align: center;
+            padding: 20px;
+            font-size: 12px;
+            color: var(--sec-color);
+            border-top: 4px solid var(--border-color);
+        }
+
+        @media (max-width: 768px) {
+            .auth-card {
+                padding: 35px 25px;
+                max-width: 100%;
+                border-width: 4px;
+            }
+
+            h1 {
+                font-size: 28px;
+            }
+
+            .btn-actions {
+                flex-direction: column;
+            }
+
+            .btn {
+                width: 100%;
+                flex: none;
+            }
+        }
+    </style>
+</head>
+<body>
+    <header class="header">
+        <nav class="navbar">
+            <div class="container">
+                <div class="nav-brand">
+                    <a href="index.html"><h2>🎓 Mentor Wave CUET</h2></a>
+                </div>
+            </div>
+        </nav>
+    </header>
+
+    <section class="auth-section">
+        <div class="container">
+            <div class="auth-container">
+                <div class="auth-card">
+                    <h1>Email Verification</h1>
+                    <p class="auth-subtitle">We've sent a verification code to <strong id="verifyEmail"></strong></p>
+
+                    <form id="verifyForm" class="auth-form">
+                        <div class="form-group">
+                            <label for="verificationCode">Enter Verification Code</label>
+                            <input 
+                                type="text" 
+                                id="verificationCode" 
+                                name="verificationCode" 
+                                placeholder="000000" 
+                                required 
+                                maxlength="6"
+                                inputmode="numeric"
+                            />
+                        </div>
+
+                        <div id="verificationMessage" class="verification-message" style="display: none;"></div>
+
+                        <button type="submit" class="btn btn-primary btn-block">Verify</button>
+                    </form>
+
+                    <div class="btn-actions">
+                        <button id="resendBtn" class="btn btn-secondary">Resend Code</button>
+                        <button id="devShowCode" class="btn btn-ghost">Show Demo Code</button>
+                    </div>
+
+                    <div class="auth-footer">
+                        <p>Didn't receive the code? Try resending or check your spam folder.</p>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <footer class="footer footer-minimal">
+        <div class="container">
+            <p>&copy; 2026 Mentor Wave CUET. All rights reserved.</p>
+        </div>
+    </footer>
+
+    <script src="js/main.js"></script>
+    <script src="js/api.js"></script>
+    <script>
+        // Initialize verification page handlers when DOM is ready
+        document.addEventListener('DOMContentLoaded', function() {
+            initializeVerificationPage();
+        });
+    </script>
+</body>
+</html>

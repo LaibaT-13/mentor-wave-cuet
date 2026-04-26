@@ -1,0 +1,316 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>My Profile - Mentor Wave CUET</title>
+    <style>
+        /* --- THEME & FONTS --- */
+        :root {
+            --sidebar-bg: #4B3628;           /* Dark Brown */
+            --sidebar-active: #6B4F3A;       /* Mocha */
+            --sidebar-text: #F3E6D6;         /* Champagne */
+            --main-bg: #FFFFFF;              /* White */
+            --card-bg: #EAD8C0;              /* Beige */
+            --card-text: #3A2F2A;            /* Anthrazit */
+            --sidebar-card-bg: #D8B892;      /* Sand */
+            --sidebar-card-text: #4B3628;    /* Dark Brown */
+            --accent-line: #B17843;          /* Caramel */
+            --tag-bg: #C4B7A6;               /* Greige */
+            --tag-text: #4B3628;             /* Dark Brown */
+            --btn-primary: #A45A3F;          /* Terracotta */
+            --btn-hover: #B17843;            /* Caramel */
+            --btn-text: #FFFFFF;             /* White */
+            --verified-badge: #8A9A7B;       /* Sage Green */
+            --gold: #D4AF37;                 /* Gold Icons/Accents */
+            --border-color: #C4B7A6;         /* Greige */
+        }
+
+        * { margin: 0; padding: 0; box-sizing: border-box; }
+
+        body {
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            background-color: var(--main-bg);
+            color: var(--card-text);
+            display: flex;
+        }
+
+        /* --- TYPOGRAPHY --- */
+        h1, .page-title { font-size: 32px; font-weight: 600; color: var(--card-text); }
+        h2, .profile-header-info h2 { font-size: 24px; font-weight: 600; color: var(--card-text); }
+        h3, .profile-section-title, .sidebar-card h3 { font-size: 18px; font-weight: 600; color: var(--card-text); }
+        label { font-size: 13px; font-weight: 700; color: var(--btn-primary); text-transform: uppercase; display: block; margin-bottom: 4px; }
+        p { font-size: 15px; line-height: 1.6; }
+
+        /* --- SIDEBAR --- */
+        .sidebar {
+            width: 260px;
+            background-color: var(--sidebar-bg);
+            color: var(--sidebar-text);
+            min-height: 100vh;
+            position: fixed;
+            padding: 20px;
+        }
+        .sidebar-header h2 { color: var(--sidebar-text); margin-bottom: 30px; font-size: 20px; }
+        .sidebar-user { display: flex; gap: 12px; align-items: center; padding-bottom: 20px; border-bottom: 1px solid rgba(243, 230, 214, 0.2); }
+        .user-avatar { width: 40px; height: 40px; background: var(--sidebar-active); border-radius: 50%; display: flex; align-items: center; justify-content: center; color: var(--sidebar-text); font-weight: bold; }
+        .user-info h3 { color: var(--sidebar-text); font-size: 16px; margin: 0; }
+        .user-info p { color: var(--sidebar-text); opacity: 0.8; }
+        .sidebar-nav { margin-top: 25px; display: flex; flex-direction: column; gap: 4px; }
+        .nav-item { display: flex; align-items: center; gap: 12px; padding: 12px; text-decoration: none; color: var(--sidebar-text); border-radius: 6px; }
+        .nav-item.active { background-color: var(--sidebar-active); color: var(--sidebar-text); }
+        .nav-item:hover:not(.active) { background-color: rgba(107, 79, 58, 0.3); color: var(--sidebar-text); }
+
+        /* --- LAYOUT & TOPBAR --- */
+        .main-content { margin-left: 260px; width: calc(100% - 260px); }
+        .topbar { background-color: #F5F5DC; padding: 15px 30px; display: flex; justify-content: space-between; align-items: center; border-bottom: 1px solid var(--border-color); }
+        .dashboard-content { padding: 30px; background-color: var(--main-bg); }
+
+        /* --- PROFILE CONTENT --- */
+        .profile-layout { display: grid; grid-template-columns: 1fr 300px; gap: 25px; align-items: start; }
+        .profile-card, .sidebar-card { 
+            background: var(--card-bg); 
+            padding: 30px; 
+            border-radius: 12px; 
+            border: 1px solid var(--border-color);
+        }
+
+        .profile-header { display: flex; gap: 25px; align-items: center; margin-bottom: 40px; }
+        .profile-avatar-large { 
+            width: 100px; height: 100px; background: var(--sidebar-bg); color: var(--sidebar-text); 
+            border-radius: 50%; display: flex; align-items: center; justify-content: center; 
+            font-size: 36px; font-weight: bold; border: 4px solid var(--gold);
+        }
+        
+        .status-badge { 
+            font-size: 12px; padding: 6px 12px; border-radius: 20px; font-weight: 600; margin-right: 8px;
+        }
+        .verified { background: var(--verified-badge); color: white; border: 1px solid var(--verified-badge); }
+        .active { background: var(--btn-primary); color: white; border: 1px solid var(--btn-primary); }
+
+        .profile-section { margin-bottom: 35px; }
+        .profile-section-title { 
+            border-bottom: 2px solid var(--accent-line); padding-bottom: 8px; margin-bottom: 20px; 
+        }
+
+        .info-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 20px; }
+        .full-width { grid-column: span 2; }
+
+        .tag-list { display: flex; flex-wrap: wrap; gap: 8px; margin-top: 10px; }
+        .tag { 
+            background: var(--tag-bg); border: 1px solid var(--tag-bg); 
+            padding: 6px 14px; border-radius: 20px; font-size: 13px; color: var(--tag-text); font-weight: 500;
+        }
+
+        /* --- SIDEBAR CARDS --- */
+        .sidebar-card { padding: 20px; margin-bottom: 20px; background: var(--sidebar-card-bg); }
+        .sidebar-card h3 { color: var(--sidebar-card-text); }
+        .stat-item { text-align: center; padding: 10px; }
+        .stat-number { display: block; font-size: 24px; font-weight: bold; color: var(--btn-primary); }
+        .stat-label { font-size: 12px; color: var(--sidebar-card-text); }
+
+        .quick-link { 
+            display: block; padding: 10px; color: var(--sidebar-card-text); 
+            text-decoration: none; border-bottom: 1px solid rgba(75, 54, 40, 0.2); font-size: 14px;
+        }
+        .quick-link:hover { color: var(--btn-primary); padding-left: 15px; transition: 0.3s; }
+
+        /* --- BUTTONS --- */
+        .btn { padding: 10px 20px; border-radius: 20px; border: none; font-weight: 600; cursor: pointer; transition: 0.3s; }
+        .btn-primary { background: var(--btn-primary); color: var(--btn-text); }
+        .btn-primary:hover { background: var(--btn-hover); }
+        .btn-sm { padding: 8px 15px; font-size: 13px; }
+
+        /* --- MODAL --- */
+        .modal { 
+            position: fixed; top: 0; left: 0; width: 100%; height: 100%; 
+            background: rgba(0,0,0,0.5); display: flex; align-items: center; justify-content: center; z-index: 1000;
+        }
+        .modal-content { background: var(--card-bg); padding: 30px; border-radius: 12px; width: 500px; border: 1px solid var(--border-color); }
+
+        .modal-content input,
+        .modal-content select {
+            background: white;
+            border: 1px solid var(--border-color);
+            color: var(--card-text);
+        }
+
+        .modal-content input:focus,
+        .modal-content select:focus {
+            outline: none;
+            border-color: var(--btn-primary);
+        }
+    </style>
+</head>
+<body class="dashboard-layout">
+    <aside class="sidebar" id="sidebar">
+        <div class="sidebar-header"><h2>🎓 Mentor Wave</h2></div>
+        <div class="sidebar-user">
+            <div class="user-avatar">T</div>
+            <div class="user-info">
+                <h3 id="userName">Ahmed Rashid</h3>
+                <p id="userRole">Tutor</p>
+            </div>
+        </div>
+        <nav class="sidebar-nav">
+            <a href="dashboard.html" class="nav-item"><span class="nav-icon">📊</span><span>Dashboard</span></a>
+            <a href="browse.html" class="nav-item"><span class="nav-icon">🔍</span><span>Browse Tuitions</span></a>
+            <a href="profile.html" class="nav-item active"><span class="nav-icon">👤</span><span>My Profile</span></a>
+            <a href="#" class="nav-item" id="messagesLink"><span class="nav-icon">💬</span><span>Messages</span></a>
+            <a href="#" class="nav-item" id="logoutLink"><span class="nav-icon">🚪</span><span>Logout</span></a>
+        </nav>
+    </aside>
+
+    <main class="main-content">
+        <header class="topbar">
+            <h1 class="page-title">My Profile</h1>
+            <div class="topbar-actions">
+                <button class="btn btn-primary btn-sm" id="editProfileBtn">Edit Profile</button>
+            </div>
+        </header>
+
+        <div class="dashboard-content">
+            <div class="profile-layout">
+                <div class="profile-card">
+                    <div class="profile-header">
+                        <div class="profile-avatar-large"><span id="profileAvatar">AB</span></div>
+                        <div class="profile-header-info">
+                            <h2 id="profileName">Ahmed Bin Rashid</h2>
+                            <p id="profileDept" style="color: var(--btn-primary); font-weight: 600;">Computer Science & Engineering</p>
+                            <p id="profileStudentId" style="font-size: 13px; opacity: 0.8;">Student ID: 1904XXX</p>
+                            <div class="profile-status" style="margin-top:10px;">
+                                <span class="status-badge verified">✓ Verified Tutor</span>
+                                <span class="status-badge active">Available</span>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="profile-section">
+                        <h3 class="profile-section-title">Personal Information</h3>
+                        <div class="info-grid">
+                            <div class="info-item"><label>Email</label><p id="profileEmail">ahmed.rashid@student.cuet.ac.bd</p></div>
+                            <div class="info-item"><label>Phone</label><p id="profilePhone">+880 1XXX-XXXXXX</p></div>
+                            <div class="info-item"><label>Department</label><p id="profileDeptSmall">CSE, CUET</p></div>
+                            <div class="info-item"><label>Gender</label><p id="profileGender">Male</p></div>
+                        </div>
+                    </div>
+
+                    <div class="profile-section">
+                        <h3 class="profile-section-title">Academic Details</h3>
+                        <div class="info-grid">
+                            <div class="info-item"><label>Current Year</label><p id="profileYear">3rd Year</p></div>
+                            <div class="info-item"><label>CGPA</label><p id="profileCgpa">3.85 / 4.00</p></div>
+                            <div class="info-item"><label>SSC Result</label><p id="profileSSC">GPA 5.00</p></div>
+                            <div class="info-item"><label>HSC Result</label><p id="profileHSC">GPA 5.00</p></div>
+                        </div>
+                    </div>
+
+                    <div class="profile-section">
+                        <h3 class="profile-section-title">Teaching Preferences</h3>
+                        <div class="info-grid">
+                            <div class="info-item full-width">
+                                <label>Subjects I Can Teach</label>
+                                <div id="profileSubjects" class="tag-list">
+                                    <span class="tag">Mathematics</span><span class="tag">Physics</span>
+                                    <span class="tag">Chemistry</span><span class="tag">ICT</span>
+                                    <span class="tag">Higher Math</span>
+                                </div>
+                            </div>
+                            <div class="info-item"><label>Expected Salary</label><p id="profileSalary">৳8,000 - ৳12,000</p></div>
+                            <div class="info-item"><label>Preferred Areas</label><p id="profileAreas">Nasirabad, Agrabad</p></div>
+                        </div>
+                    </div>
+                </div>
+
+                <aside class="profile-sidebar">
+                    <div class="sidebar-card">
+                        <h3>Profile Stats</h3>
+                        <div style="display: flex; justify-content: space-around; margin-top: 15px;">
+                            <div class="stat-item"><span class="stat-number">28</span><span class="stat-label">Views</span></div>
+                            <div class="stat-item"><span class="stat-number">5</span><span class="stat-label">Applied</span></div>
+                        </div>
+                    </div>
+
+                    <div class="sidebar-card">
+                        <h3>Quick Actions</h3>
+                        <div class="quick-links" style="margin-top:10px;">
+                            <a href="browse.html" class="quick-link">🔍 Browse Tuitions</a>
+                            <a href="#" class="quick-link">📩 View Messages</a>
+                            <a href="#" class="quick-link">📄 Download CV</a>
+                        </div>
+                    </div>
+                </aside>
+            </div>
+        </div>
+    </main>
+
+    <!-- Edit Profile Modal -->
+    <div id="editProfileModal" class="modal" style="display:none;">
+        <div class="modal-content">
+            <div style="display:flex; justify-content:space-between; align-items:center; margin-bottom:12px;">
+                <h3 style="margin:0; color: var(--card-text);">Edit Profile</h3>
+                <button id="closeModal" style="background:none; border:none; font-size:18px; cursor:pointer; color: var(--card-text);">✕</button>
+            </div>
+            <form id="editProfileForm">
+                <div style="display:grid; grid-template-columns:1fr 1fr; gap:12px;">
+                    <div>
+                        <label>Name</label>
+                        <input id="editName" type="text" style="width:100%; padding:8px; margin-top:6px;" />
+                    </div>
+                    <div>
+                        <label>Phone</label>
+                        <input id="editPhone" type="text" style="width:100%; padding:8px; margin-top:6px;" />
+                    </div>
+                    <div>
+                        <label>Department</label>
+                        <input id="editDept" type="text" style="width:100%; padding:8px; margin-top:6px;" />
+                    </div>
+                    <div>
+                        <label>Student ID</label>
+                        <input id="editStudentId" type="text" style="width:100%; padding:8px; margin-top:6px;" />
+                    </div>
+                    <div>
+                        <label>Gender</label>
+                        <select id="editGender" style="width:100%; padding:8px; margin-top:6px;"><option value="">Prefer not to say</option><option value="male">Male</option><option value="female">Female</option></select>
+                    </div>
+                    <div>
+                        <label>Current Year</label>
+                        <input id="editYear" type="text" style="width:100%; padding:8px; margin-top:6px;" />
+                    </div>
+                    <div>
+                        <label>CGPA</label>
+                        <input id="editCgpa" type="text" style="width:100%; padding:8px; margin-top:6px;" />
+                    </div>
+                    <div>
+                        <label>SSC Result</label>
+                        <input id="editSSC" type="text" style="width:100%; padding:8px; margin-top:6px;" />
+                    </div>
+                    <div>
+                        <label>HSC Result</label>
+                        <input id="editHSC" type="text" style="width:100%; padding:8px; margin-top:6px;" />
+                    </div>
+                    <div class="full-width" style="grid-column:span 2;">
+                        <label>Subjects (comma separated)</label>
+                        <input id="editSubjects" type="text" style="width:100%; padding:8px; margin-top:6px;" />
+                    </div>
+                    <div>
+                        <label>Expected Salary</label>
+                        <input id="editSalary" type="text" style="width:100%; padding:8px; margin-top:6px;" />
+                    </div>
+                    <div>
+                        <label>Preferred Areas</label>
+                        <input id="editAreas" type="text" style="width:100%; padding:8px; margin-top:6px;" />
+                    </div>
+                </div>
+                <div style="display:flex; justify-content:flex-end; gap:8px; margin-top:16px;">
+                    <button type="button" id="cancelEdit" class="btn" style="background: var(--tag-bg); color: var(--tag-text);">Cancel</button>
+                    <button type="submit" class="btn btn-primary">Save Changes</button>
+                </div>
+            </form>
+        </div>
+    </div>
+
+    <script src="../js/main.js"></script>
+    <script src="../js/api.js"></script>
+</body>
+</html>

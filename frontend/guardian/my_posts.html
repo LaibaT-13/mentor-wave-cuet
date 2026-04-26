@@ -1,0 +1,87 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>My Posts - Mentor Wave CUET</title>
+    <style>
+        /* Reused theme from guardian pages for consistency */
+        :root {
+            --sidebar-bg: #4B3628;
+            --sidebar-active: #6B4F3A;
+            --sidebar-text: #F3E6D6;
+            --main-bg: #FFFFFF;
+            --card-bg: #D8B892;
+            --card-text: #3A2F2A;
+            --table-border: #C4B7A6;
+            --btn-primary: #A45A3F;
+            --btn-hover: #B17843;
+        }
+
+        * { margin:0; padding:0; box-sizing: border-box; }
+        body { font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif; display:flex; background:var(--main-bg); color:var(--card-text); }
+
+        .sidebar { width:260px; background:var(--sidebar-bg); color:var(--sidebar-text); min-height:100vh; position:fixed; padding:20px; }
+        .sidebar-header h2 { margin-bottom:20px; }
+        .sidebar-user { display:flex; gap:12px; align-items:center; padding-bottom:20px; border-bottom:1px solid rgba(243,230,214,0.15); }
+        .user-avatar { width:40px; height:40px; border-radius:50%; background:var(--sidebar-active); display:flex; align-items:center; justify-content:center; }
+        .sidebar-nav { margin-top:20px; display:flex; flex-direction:column; gap:6px; }
+        .nav-item { display:flex; gap:12px; padding:12px; border-radius:6px; text-decoration:none; color:var(--sidebar-text); }
+        .nav-item.active { background:var(--sidebar-active); }
+
+        .main-content { margin-left:260px; width:calc(100% - 260px); }
+        .topbar { background:#F5F5DC; padding:15px 30px; border-bottom:1px solid var(--table-border); display:flex; justify-content:space-between; align-items:center; }
+        .dashboard-content { padding:30px; }
+
+        .section-heading { font-size:22px; margin-bottom:12px; }
+
+        .posts-list { display:grid; grid-template-columns: repeat(auto-fill, minmax(300px,1fr)); gap:18px; }
+        .post-card { background:var(--card-bg); padding:18px; border-radius:10px; border:1px solid var(--table-border); display:flex; flex-direction:column; gap:10px; }
+        .post-card h3 { margin-bottom:6px; }
+        .post-meta { font-size:13px; color:#4b3628; display:flex; gap:8px; flex-wrap:wrap; }
+        .post-actions { margin-top:8px; display:flex; gap:8px; justify-content:flex-end; }
+        .btn { padding:8px 14px; border-radius:18px; border:none; cursor:pointer; font-weight:600; }
+        .btn-primary { background:var(--btn-primary); color:white; }
+        .btn-outline { background:transparent; border:1px solid var(--btn-primary); color:var(--btn-primary); }
+
+        .empty { background:#fff6e8; padding:20px; border-radius:8px; border:1px dashed var(--table-border); }
+    </style>
+</head>
+<body class="dashboard-layout">
+    <aside class="sidebar">
+        <div class="sidebar-header"><h2>🎓 Mentor Wave</h2></div>
+        <div class="sidebar-user">
+            <div class="user-avatar">G</div>
+            <div class="user-info"><h3 id="userName">Loading...</h3><p id="userRole">Guardian</p></div>
+        </div>
+        <nav class="sidebar-nav">
+            <a href="dashboard.html" class="nav-item"><span>📊</span><span>Dashboard</span></a>
+            <a href="post_tuition.html" class="nav-item"><span>➕</span><span>Post Tuition</span></a>
+            <a href="my_posts.html" class="nav-item active"><span>📝</span><span>My Posts</span></a>
+            <a href="../messages.html" class="nav-item"><span>💬</span><span>Messages</span></a>
+            <a href="#" class="nav-item"><span>🚪</span><span>Logout</span></a>
+        </nav>
+    </aside>
+
+    <main class="main-content">
+        <header class="topbar">
+            <h1 class="page-title">My Posts</h1>
+            <div class="topbar-actions"><a href="post_tuition.html" class="btn btn-outline">Post New</a></div>
+        </header>
+
+        <div class="dashboard-content">
+            <section>
+                <h2 class="section-heading">Your Active & Archived Posts</h2>
+                <div id="postsContainer" class="posts-list">
+                    <!-- Posts rendered by JS -->
+                </div>
+                <div id="emptyState" style="display:none; margin-top:18px;" class="empty">You have not posted any tuition yet. Click <a href="post_tuition.html">Post New</a> to create one.</div>
+            </section>
+        </div>
+    </main>
+
+    <script src="../js/main.js"></script>
+    <script src="../js/api.js"></script>
+    <script src="my_posts.js"></script>
+</body>
+</html>
