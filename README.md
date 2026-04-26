@@ -20,8 +20,8 @@ Copy backend/.env.example to backend/.env
 Fill in your MySQL password and Gmail App Password.
 
 ### 4. Install and start backend
-cd backend <\br>
-npm install <\br>
+cd backend <br>
+npm install <br>
 node server.js
 
 ### 5. Seed admin accounts (first time only)
